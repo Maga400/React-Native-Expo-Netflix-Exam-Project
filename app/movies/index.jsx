@@ -5,6 +5,7 @@ import Vector from "../../assets/icons/Vector.svg";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TrendingTVShows from '../../components/tvShows/TrendingTVShows';
 import TrendingMovies from "../../components/movies/TrendingMovies";
+import { router } from "expo-router";
 
 const Movies = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
@@ -60,6 +61,10 @@ const Movies = () => {
         className={`mt-[30px] h-[470px]`}
       >
         <TouchableOpacity 
+          onPress={() => router.push({
+            pathname: "/movies/details/[id]",
+            params: { id: trendingMovies[0].id, mediaType: trendingMovies[0].media_type,start:"start"}
+          })}
           style={{position:'absolute',width:(width-30) /2,left:10,bottom:25,borderRadius:4,backgroundColor:'#FFFFFF',alignItems:'center',paddingTop:15,paddingBottom:15}}>
           <Text className='font-poppinsRegular font-bold text-[16px] leading-[24px] color-[#000000]'>Play</Text>
         </TouchableOpacity>

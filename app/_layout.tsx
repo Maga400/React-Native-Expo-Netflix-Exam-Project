@@ -24,6 +24,7 @@ export default function RootLayout() {
     "Montserrat-Bold": require('../assets/fonts/Montserrat-Bold.ttf'),
     "Roboto-Regular": require('../assets/fonts/Roboto-Regular.ttf'),
     'Poppins-Regular' : require('../assets/fonts/Poppins-Regular.ttf'),
+    'Inter_18pt-Regular' : require('../assets/fonts/Inter_18pt-Regular.ttf'),
   });
 
   useEffect(() => {

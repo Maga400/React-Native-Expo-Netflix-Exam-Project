@@ -69,6 +69,7 @@ const Board = () => {
       <FlatList
         scrollEnabled={false}
         data={data.filter((_, index) => index === boardIndex)}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View className={`mt-[70px] items-center`}>
             {item.icon}
