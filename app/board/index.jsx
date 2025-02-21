@@ -6,7 +6,7 @@ import Download from "../../assets/icons/download.svg";
 import Population from "../../assets/icons/population.svg";
 import { router, useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import Boarding from '../../components/Boarding'
 const data = [
   {
     id: 1,
@@ -71,25 +71,13 @@ const Board = () => {
         data={data.filter((_, index) => index === boardIndex)}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View className={`mt-[70px] items-center`}>
-            {item.icon}
-            <Text className={`${boardIndex == lastIndex ? 'mt-[280px]' : 'mt-[15px]'} font-robotoRegular font-bold text-[24px] leading-[28px] color-[#FFFFFF]`}>
-              {item.title}
-            </Text>
-            <Text
-              className={`${item.weight} text-center mt-[20px] font-robotoRegular font-normal text-[20px] leading-[23px] color-[#CCCCCC]`}
-            >
-              {item.description}
-            </Text>
-          </View>
+          <Boarding item={item} boardIndex={boardIndex} lastIndex={lastIndex} />
         )}
       />
 
       <View className="mb-[35px] items-center flex-row">
         {data.map((_,index) => (
-          <View key={index} className={`rounded-[4px] w-[10px] h-[10px] ${index != 0 && 'ml-[20px]'} ${boardIndex === index ? 'bg-red-600' : 'bg-gray-300'}`}>
-
-          </View>
+          <View key={index} className={`rounded-[4px] w-[10px] h-[10px] ${index != 0 && 'ml-[20px]'} ${boardIndex === index ? 'bg-red-600' : 'bg-gray-300'}`}></View>
         ))}
       </View>
 

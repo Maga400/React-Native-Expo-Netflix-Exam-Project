@@ -1,5 +1,6 @@
-import { Image,TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { router } from "expo-router";
+import { Image } from "expo-image";
 
 const TrendingTVShows = ({ item, index }) => {
   const baseImageUrl = "https://image.tmdb.org/t/p/w500";
@@ -14,8 +15,10 @@ const TrendingTVShows = ({ item, index }) => {
       }
     >
       <Image
-        source={{ uri: `${baseImageUrl}${item.poster_path}` }}
-        className={`w-[120px] h-[180px] ${index != 0 && "ml-[20px]"} `}
+      source={{ uri: `${baseImageUrl}${item.poster_path}` }}
+      style={{ width: 120, height: 180, marginLeft:index != 0 && 20 }}
+      contentFit="cover"
+      transition={500}
       />
     </TouchableOpacity>
   );

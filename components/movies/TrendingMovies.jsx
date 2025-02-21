@@ -1,19 +1,25 @@
-import { Image, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { router } from "expo-router";
-import { useState } from "react";
+import { Image } from "expo-image";
 
-const TrendingMovies = ({item,index}) => {
+const TrendingMovies = ({ item, index }) => {
   const baseImageUrl = "https://image.tmdb.org/t/p/w500";
 
   return (
-    <TouchableOpacity onPress={() => router.push({
-      pathname: "/movies/details/[id]",
-      params: { id: item.id, mediaType: item.media_type,start:"" }
-    })}>
+    <TouchableOpacity
+      onPress={() =>
+        router.push({
+          pathname: "/movies/details/[id]",
+          params: { id: item.id, mediaType: item.media_type, start: "" },
+        })
+      }
+    >
       <Image
         source={{ uri: `${baseImageUrl}${item.poster_path}` }}
-        className={`w-[120px] h-[180px] ${index != 0 && "ml-[20px]"} `}
-        />
+        style={{ width: 120, height: 180, marginLeft: index != 0 && 20 }}
+        contentFit="cover"
+        transition={500}
+      />
     </TouchableOpacity>
   );
 };
