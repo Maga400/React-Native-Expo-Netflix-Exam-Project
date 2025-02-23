@@ -81,7 +81,7 @@ const Board = () => {
         ))}
       </View>
 
-      <TouchableOpacity onPress={finish} style={{width:width}} className="bg-[#E50914] mb-[35px] mx-[10px] py-[10px] items-center">
+      <TouchableOpacity onPress={finish} style={{width:width}} className="bg-[#E50914] mb-[10px] mx-[10px] py-[10px] items-center">
         <Text className="font-robotoRegular font-extrabold text-[14px] leading-[16px] color-[#000000]">NEXT</Text>
       </TouchableOpacity>
 

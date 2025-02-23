@@ -4,6 +4,9 @@ import Vector from "../../assets/icons/Vector.svg";
 import Input from '../../components/Input/Input'
 import { useState } from "react";
 import { useRouter } from "expo-router";
+import Constants from 'expo-constants';
+
+const IP_URL = Constants.expoConfig.extra.IP_URL;
 
 const Register = () => {
   const[formData,setFromData] = useState({});
@@ -12,7 +15,7 @@ const Register = () => {
 
   const register = async() => {
     try{
-      const response = await fetch("http://192.168.100.8:5001/api/v1/auth/signup",{
+      const response = await fetch(`${IP_URL}/auth/signup`,{
         method:"POST",
         headers:{
           "Content-Type": "application/json",
@@ -33,7 +36,7 @@ const Register = () => {
 
   return (
     <View style={{backgroundColor:'#000000',padding:'20'}} className="h-full w-full">
-      <Vector width={89} height={24}  style={{marginTop:27,}}/>
+      <Vector width={89} height={24} />
       <Text style={{fontWeight:700,lineHeight:37.5}} className="mt-[200px] color-white text-[32px] font-robotoRegular" >Sign Up</Text>
       <Input name='username' setFormData={setFromData} value={formData?.username} placeholder='Username' style={{backgroundColor:'#161616B2',fontWeight:400,lineHeight:24}} className={`mt-[30px] text-[#FFFFFFB2] text-[16px] border-[1px] font-robotoRegular rounded-[4px] border-[#808080B2] pl-4 bg-white ${os === 'ios' && "py-4"}`} />
       <Input name='email' setFormData={setFromData} value={formData?.email} placeholder='Email' style={{backgroundColor:'#161616B2',fontWeight:400,lineHeight:24}} className={`mt-[15px] text-[#FFFFFFB2] text-[16px] border-[1px] font-robotoRegular rounded-[4px] border-[#808080B2] pl-4 bg-white ${os === 'ios' && "py-4"}`} />

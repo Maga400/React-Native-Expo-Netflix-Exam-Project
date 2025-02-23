@@ -4,6 +4,9 @@ import { useLocalSearchParams } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import YoutubePlayer from "react-native-youtube-iframe";
 import Similar from "../../../components/similar/Similar";
+import Constants from 'expo-constants';
+
+const IP_URL = Constants.expoConfig.extra.IP_URL;
 
 const Details = () => {
   const [data, setData] = useState({});
@@ -17,7 +20,7 @@ const Details = () => {
   const getData = async () => {
     try {
       const response = await fetch(
-        `http://192.168.100.8:5001/api/v1/${mediaType}/${id}/details`
+        `${IP_URL}/${mediaType}/${id}/details`
       );
       const apiData = await response.json();
       setGenres(apiData.content.genres);
@@ -31,7 +34,7 @@ const Details = () => {
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
-        `http://192.168.100.8:5001/api/v1/${mediaType}/${id}/trailers`,
+        `${IP_URL}/${mediaType}/${id}/trailers`,
         {
           method: "GET",
           headers: {
@@ -49,19 +52,20 @@ const Details = () => {
   const getSimilar = async() => {
     try{
         const token = await AsyncStorage.getItem("token");
-        const response = await fetch(`http://192.168.100.8:5001/api/v1/${mediaType}/${id}/similar`,{
+        const response = await fetch(`${IP_URL}/${mediaType}/${id}/similar`,{
             method: "GET",
             headers: {
-                "Authorization": `Bearer ${token}`,
+              "Authorization": `Bearer ${token}`,
             },
         });
 
         const apiData = await response.json();
+        console.log(apiData.similar[0]);
         setSimilar(apiData.similar);
     }
     catch(error)
     {
-        console.error(error);
+      console.error(error);
     }
   }
 
@@ -83,7 +87,7 @@ const Details = () => {
   }, []);
 
   return (
-    <ScrollView className="bg-[#000000] h-full w-full py-[40px]">
+    <ScrollView className="bg-[#000000] h-full w-full">
       <YoutubePlayer
         height={225}
         play={start === "start" ? true: playing}
@@ -108,7 +112,7 @@ const Details = () => {
         data={similar}
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{marginLeft:20,marginTop: 20,marginBottom:50 }}
+        contentContainerStyle={{marginLeft:20,marginTop: 20 }}
         keyExtractor={item => item.id}
         renderItem={({ item, index }) => (
           <Similar item={item} index={index} />

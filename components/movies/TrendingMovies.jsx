@@ -1,9 +1,11 @@
 import { TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 import { Image } from "expo-image";
+import Constants from "expo-constants";
+
+const Base_Image_URL = Constants.expoConfig.extra.Base_Image_URL;
 
 const TrendingMovies = ({ item, index }) => {
-  const baseImageUrl = "https://image.tmdb.org/t/p/w500";
 
   return (
     <TouchableOpacity
@@ -15,7 +17,7 @@ const TrendingMovies = ({ item, index }) => {
       }
     >
       <Image
-        source={{ uri: `${baseImageUrl}${item.poster_path}` }}
+        source={{ uri: `${Base_Image_URL}${item.poster_path}` }}
         style={{ width: 120, height: 180, marginLeft: index != 0 && 20 }}
         contentFit="cover"
         transition={500}

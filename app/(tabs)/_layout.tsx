@@ -1,9 +1,15 @@
-import { Redirect } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { Platform, ActivityIndicator, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { Tabs, router, Redirect } from "expo-router";
+import { HapticTab } from "@/components/HapticTab";
+import { IconSymbol } from "@/components/ui/IconSymbol";
+import TabBarBackground from "@/components/ui/TabBarBackground";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+
+import "../../global.css";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -35,7 +41,10 @@ export default function TabLayout() {
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color={Colors[colorScheme ?? "light"].tint} />
+        <ActivityIndicator
+          size="large"
+          color={Colors[colorScheme ?? "light"].tint}
+        />
       </View>
     );
   }
@@ -49,4 +58,45 @@ export default function TabLayout() {
   }
 
   return <Redirect href="/movies" />;
+
+  // return (
+  //   <SafeAreaProvider>
+  //     <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
+  //       <Tabs
+  //         screenOptions={{
+  //           tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+  //           headerShown: false,
+  //           tabBarButton: HapticTab,
+  //           tabBarBackground: TabBarBackground,
+  //           tabBarStyle: Platform.select({
+  //             ios: {
+  //               position: "absolute",
+  //             },
+  //             default: {},
+  //           }),
+  //         }}
+  //       >
+  //         <Tabs.Screen
+  //           name="index"
+  //           options={{
+  //             title: "Home",
+  //             tabBarIcon: ({ color }) => (
+  //               <IconSymbol size={28} name="house.fill" color={color} />
+  //             ),
+  //           }}
+  //         />
+
+  //         <Tabs.Screen
+  //           name="search"
+  //           options={{
+  //             title: "Search",
+  //             tabBarIcon: ({ color }) => (
+  //               <IconSymbol size={28} name="magnifyingglass" color={color} />
+  //             ),
+  //           }}
+  //         />
+  //       </Tabs>
+  //     </SafeAreaView>
+  //   </SafeAreaProvider>
+  // );
 }
