@@ -26,6 +26,9 @@ export default function RootLayout() {
     "Roboto-Regular": require('../assets/fonts/Roboto-Regular.ttf'),
     'Poppins-Regular' : require('../assets/fonts/Poppins-Regular.ttf'),
     'Inter_18pt-Regular' : require('../assets/fonts/Inter_18pt-Regular.ttf'),
+    'Manrope-Regular': require('../assets/fonts/Manrope-Regular.ttf'),
+    'Manrope-Medium': require('../assets/fonts/Manrope-Medium.ttf'),
+    'Manrope-ExtraBold': require('../assets/fonts/Manrope-ExtraBold.ttf'),
   });
 
   useEffect(() => {
@@ -46,7 +49,7 @@ export default function RootLayout() {
             <Stack.Screen name="(tabs)/home"  />
             <Stack.Screen name="+not-found" />
           </Stack>
-          <StatusBar style="auto" />
+          <StatusBar style='light' translucent />
         </ThemeProvider>
 
       </SafeAreaView>

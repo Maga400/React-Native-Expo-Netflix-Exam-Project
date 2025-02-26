@@ -14,9 +14,13 @@ module.exports = {
         montserratBold: "Montserrat-Bold",
         robotoRegular: "Roboto-Regular",
         poppinsRegular: "Poppins-Regular",
-        inter18ptRegular:"Inter_18pt-Regular",
-      }
+        inter18ptRegular: "Inter_18pt-Regular",
+        manropeRegular: "Manrope-Regular",
+        manropeMedium: "Manrope-Medium",
+        manropeExtraBold: "Manrope-ExtraBold",
+
+      },
     },
   },
   plugins: [],
-}
+};

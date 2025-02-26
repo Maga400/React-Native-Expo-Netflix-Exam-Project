@@ -69,8 +69,8 @@ const Movies = () => {
       <Vector width={90} height={25} />
       <ImageBackground
         source={{ uri: `${Base_Image_URL}${path}` }}
-        style={{ width: width, borderRadius: 10 }}
-        className={`mt-[30px] h-[470px]`}
+        style={{ width: width}}
+        className={`mt-[30px] h-[470px] rounded-[10px]`}
       >
         <TouchableOpacity
           onPress={() =>
@@ -101,6 +101,14 @@ const Movies = () => {
         </TouchableOpacity>
 
         <TouchableOpacity
+          onPress={() => {
+            router.push({
+              pathname: "/movies/moreinfo",
+              params: {
+                id: trendingMovies[0].id,
+                mediaType: trendingMovies[0].media_type,
+            }})
+          }}
           style={{
             position: "absolute",
             width: (width - 30) / 2,

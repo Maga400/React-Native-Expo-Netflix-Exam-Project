@@ -4,7 +4,7 @@ import Vector from "../../assets/icons/Vector.svg";
 import Laptop from "../../assets/icons/laptop.svg";
 import Download from "../../assets/icons/download.svg";
 import Population from "../../assets/icons/population.svg";
-import { router, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Boarding from '../../components/Boarding'
 const data = [
@@ -62,7 +62,14 @@ const Board = () => {
     >
       <View className="flex-row">
         <Vector width={130} height={40} style={{ marginTop: 40 }} />
-        <Text className="left-[80px] top-[51px] font-normal font-robotoRegular text-[14px] leading-[17px] color-[#FFFFFF]">
+        <TouchableOpacity onPress={() => {
+          router.push("board/privacy");
+        }}>
+          <Text className="left-[65px] top-[51px] font-normal font-robotoRegular text-[14px] leading-[17px] color-[#FFFFFF]">
+          Privacy
+          </Text>
+        </TouchableOpacity>
+        <Text className="left-[75px] top-[51px] font-normal font-robotoRegular text-[14px] leading-[17px] color-[#FFFFFF]">
           Help
         </Text>
       </View>

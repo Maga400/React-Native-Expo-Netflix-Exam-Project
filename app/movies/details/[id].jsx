@@ -1,6 +1,6 @@
-import { Text, View,Dimensions,FlatList, ScrollView } from "react-native";
+import { Text, View,Dimensions,FlatList, ScrollView,TouchableOpacity } from "react-native";
 import { useState, useEffect, useCallback } from "react";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import YoutubePlayer from "react-native-youtube-iframe";
 import Similar from "../../../components/similar/Similar";
@@ -25,6 +25,7 @@ const Details = () => {
       const apiData = await response.json();
       setGenres(apiData.content.genres);
       setData(apiData.content);
+      console.log(apiData.content);
     } catch (error) {
       console.error(error);
     }
@@ -43,7 +44,10 @@ const Details = () => {
         }
       );
       const apiData = await response.json();
-      setTrailerKey(apiData.trailers[0].key);
+      apiData.trailers.forEach(trailer => {
+        setTrailerKey(trailer.key);
+        return;
+      })
     } catch (error) {
       console.error(error);
     }
@@ -60,7 +64,6 @@ const Details = () => {
         });
 
         const apiData = await response.json();
-        console.log(apiData.similar[0]);
         setSimilar(apiData.similar);
     }
     catch(error)
@@ -115,9 +118,23 @@ const Details = () => {
         contentContainerStyle={{marginLeft:20,marginTop: 20 }}
         keyExtractor={item => item.id}
         renderItem={({ item, index }) => (
-          <Similar item={item} index={index} />
+          <Similar item={item} index={index} mediaType={mediaType} />
         )}
       />
+
+      <TouchableOpacity onPress={() => {
+        router.push({
+          pathname: mediaType == "movie" ? "movies/moreinfo" : "movies/moreinfoTv",
+          params:{
+            id:id,
+            mediaType:mediaType,
+          }
+        })
+      }}  
+        className="bg-[#444444] p-[12px] mt-[20px] mx-[20px] rounded-[8px] items-center"
+      >
+        <Text className="color-[#FFFFFF] text-[16px] font-montserratSemiBold">More Info</Text>
+      </TouchableOpacity>
 
     </ScrollView>
   );
