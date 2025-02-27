@@ -82,8 +82,8 @@ const Index = () => {
   }, [search]);
 
   return (
-    <ScrollView className="bg-[#000000]">
-      <View className="px-[20px] h-full">
+    <ScrollView className="bg-[#000000] h-full">
+      <View className="px-[20px]">
         <View className="mt-[20px]">
           <TextInput
             value={search}
