@@ -57,11 +57,10 @@ const Login = () => {
       </TouchableOpacity>
       <View className='flex-row justify-center'>
         <Text className='mt-[25px] color-[#FFFFFFB2] font-robotoRegular font-normal text-[16px] leading-[19px]'>New to Netflix?</Text>
-
-        <TouchableOpacity>
-          <Text className='mt-[25px] ml-[5px] color-[#FFFFFF] font-robotoRegular font-medium text-[16px] leading-[19px]' onPress={() => {
-            router.push('auth/register');
-          }}>Sign up now</Text>
+        <TouchableOpacity onPress={() => {
+          router.push('auth/register');
+        }}>
+          <Text className='mt-[25px] ml-[5px] color-[#FFFFFF] font-robotoRegular font-medium text-[16px] leading-[19px]'>Sign up now</Text>
         </TouchableOpacity>
       </View>
     </View>
