@@ -2,7 +2,8 @@ import { Text, View, Dimensions, Image, ScrollView, TouchableOpacity, Alert } fr
 import { useState, useEffect } from 'react';
 import Constants from 'expo-constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
+import LeftArrow2 from "../../assets/icons/leftArrow2";
 
 const IP_URL = Constants.expoConfig.extra.IP_URL;
 const Base_Image_URL = Constants.expoConfig.extra.Base_Image_URL;
@@ -30,6 +31,9 @@ const MoreInfoTv = () => {
 
   return (
     <ScrollView className='bg-[#1C1C1C] flex-1'>
+      <TouchableOpacity onPress={() => router.back()}>
+        <LeftArrow2 width={40} height={40} />
+      </TouchableOpacity>
       <View className='m-[20px]'>
         <Image
           source={{ uri: `https://image.tmdb.org/t/p/w500${data.poster_path}` }}

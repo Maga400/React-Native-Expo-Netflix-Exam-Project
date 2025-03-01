@@ -54,9 +54,11 @@ const Register = () => {
       </TouchableOpacity>
       <View className="justify-center items-center">
         <Text className='mt-[25px] color-[#FFFFFFB2] font-robotoRegular font-normal text-[16px] leading-[19px]'>Already have an  to Netflix? </Text>
-        <Text className='mt-[25px] color-[#FFFFFF] font-robotoRegular font-medium text-[16px] leading-[19px]' onPress={() => {
-          router.push('auth/login');
-        }}>Sign in</Text>
+        <TouchableOpacity>
+          <Text className='mt-[25px] color-[#FFFFFF] font-robotoRegular font-medium text-[16px] leading-[19px]' onPress={() => {
+            router.push('auth/login');
+          }}>Sign in</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

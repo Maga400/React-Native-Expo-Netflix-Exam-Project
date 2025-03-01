@@ -65,7 +65,7 @@ const Movies = () => {
   }, []);
 
   return (
-    <ScrollView className={`bg-[#000000] p-[20px]`}>
+    <ScrollView contentContainerStyle={{paddingBottom:20}} className={`bg-[#000000] p-[20px]`}>
       <Vector width={90} height={25} />
       <ImageBackground
         source={{ uri: `${Base_Image_URL}${path}` }}

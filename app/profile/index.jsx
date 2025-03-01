@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View,Image } from "react-native";
 import React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
@@ -29,19 +29,33 @@ const Index = () => {
   };
 
   return (
-    <View style={{ margin: 20 }}>
-      <Text>Profile haahah</Text>
+    <View className="h-full w-full" style={{backgroundColor:"black",padding:20 }}>
+       <View className="items-center mb-8">
+        <Image
+          source={require("../../assets/images/UserBG.webp")}
+          className="w-32 h-32 rounded-full border-2 border-white"
+        />
+        <Text className="mt-3 text-2xl font-bold text-white">
+          profile.username
+        </Text>
+      </View>
+
+      <View className="bg-gray-800 rounded-lg p-4 mb-8">
+        <View className="mb-4">
+          <Text className="text-sm text-gray-400">Email</Text>
+          <Text className="text-lg text-white">profile.email</Text>
+        </View>
+        <View>
+          <Text className="text-sm text-gray-400">Password</Text>
+          <Text className="text-lg text-white">password</Text>
+        </View>
+      </View>
+
       <TouchableOpacity
         onPress={logout}
-        style={{
-          backgroundColor: "red",
-          borderRadius: 10,
-          paddingVertical: 10,
-          marginTop: 20,
-        }}
-        className="bg-red-700 w-full"
+        className="bg-red-600 rounded-lg py-4 items-center"
       >
-        <Text className="text-center text-white">Log Out</Text>
+        <Text className="text-white text-lg font-bold">Log Out</Text>
       </TouchableOpacity>
     </View>
   );

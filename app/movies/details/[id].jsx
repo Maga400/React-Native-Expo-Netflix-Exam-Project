@@ -5,6 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import YoutubePlayer from "react-native-youtube-iframe";
 import Similar from "../../../components/similar/Similar";
 import Constants from 'expo-constants';
+import LeftArrow2 from '../../../assets/icons/leftArrow2';
 
 const IP_URL = Constants.expoConfig.extra.IP_URL;
 
@@ -91,6 +92,9 @@ const Details = () => {
 
   return (
     <ScrollView className="bg-[#000000] h-full w-full">
+      <TouchableOpacity onPress={() => router.back()} className="mb-[10px]">
+        <LeftArrow2 height={40} width={40} />
+      </TouchableOpacity>
       <YoutubePlayer
         height={225}
         play={start === "start" ? true: playing}

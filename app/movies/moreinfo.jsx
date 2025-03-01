@@ -1,7 +1,8 @@
 import { View, Text, Image, ScrollView, ActivityIndicator, TouchableOpacity, Linking, Button } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import Constants from "expo-constants";
+import LeftArrow2 from "../../assets/icons/leftArrow2"
 
 const IP_URL = Constants.expoConfig.extra.IP_URL;
 
@@ -36,6 +37,9 @@ const MoreInfo = () => {
 
   return (
     <ScrollView className="flex-1 bg-black">
+      <TouchableOpacity onPress={() => router.back()}>
+        <LeftArrow2 width={40} height={40} />
+      </TouchableOpacity>
       <View className="relative">
         <Image
           source={{ uri: `https://image.tmdb.org/t/p/w500${movie.backdrop_path || movie.poster_path}` }}

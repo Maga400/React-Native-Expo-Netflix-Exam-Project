@@ -41,17 +41,17 @@ const Privacy = () => {
       </View>
 
       <View className="flex-row" style={{ marginTop: 20 }}>
-        <TouchableOpacity onPress={() => {
+        <TouchableOpacity className="flex-row" onPress={() => {
             router.back();
         }}>
             <LeftArrow width={25} height={25} style={{ marginTop: 10 }} />
+          <Text
+            className="font-manropeMedium font-medium text-[20px] leading-[20px]"
+            style={{ marginTop: 15, marginLeft: 10, color: "#E50A14" }}
+          >
+            Back to Help Home
+          </Text>
         </TouchableOpacity>
-        <Text
-          className="font-manropeMedium font-medium text-[20px] leading-[20px]"
-          style={{ marginTop: 15, marginLeft: 10, color: "#E50A14" }}
-        >
-          Back to Help Home
-        </Text>
         <View
           style={{ padding: 10, position: "absolute", right: 0 }}
           className="rounded-[4px] border-[1px] border-[#726F73]"

@@ -6,6 +6,7 @@ import YoutubePlayer from "react-native-youtube-iframe";
 import Similar from "../../../components/similar/Similar";
 import Constants from "expo-constants";
 import { router } from "expo-router";
+import LeftArrow2 from "../../../assets/icons/leftArrow2";
 
 const IP_URL = Constants.expoConfig.extra.IP_URL;
 
@@ -87,6 +88,9 @@ const SimilarDetails = () => {
 
   return (
     <ScrollView className="bg-[#000000] h-full w-full">
+      <TouchableOpacity onPress={() => router.back()}>
+        <LeftArrow2 width={40} height={40} />
+      </TouchableOpacity>
       <YoutubePlayer
         height={225}
         play={start === "start" ? true : playing}
