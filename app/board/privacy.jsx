@@ -1,97 +1,136 @@
+import React, { useState } from "react";
 import { Text, View, Dimensions, TouchableOpacity } from "react-native";
-import React from "react";
 import Vector from "../../assets/icons/Vector.svg";
 import LeftArrow from "../../assets/icons/leftArrow.svg";
 import Printer from "../../assets/icons/printer.svg";
-import Close from '../../assets/icons/close.svg';
-import ChevronLeft from '../../assets/icons/chevronLeft.svg';
+import Close from "../../assets/icons/close.svg";
+import ChevronLeft from "../../assets/icons/chevronLeft.svg";
+import ArrowDown from "../../assets/icons/arrowDown.svg";
 import { useRouter } from "expo-router";
+import LanguagesDropDown from "../../components/LanguagesDropDown";
+import "../../i18n";
+import { useTranslation } from "react-i18next";
+import { ScrollView } from "react-native";
 
 const Privacy = () => {
   const width = Dimensions.get("window").width;
   const router = useRouter();
+  const [showCookieInfo, setShowCookieInfo] = useState(true);
+  const [message, setMessage] = useState("");
+  const { t, i18n } = useTranslation();
+
+  const handleCookieChange = () => {
+    setMessage(t("cookie_preferences_updated"));
+    setTimeout(() => {
+      setMessage("");
+    }, 2000);
+  };
+
+  const handleToggleCookieInfo = () => {
+    setShowCookieInfo((prev) => !prev);
+  };
 
   return (
-    <View style={{ paddingLeft: 20, paddingRight: 20 }}>
-      <View style={{marginTop: 20, marginBottom: 10}} className="flex-row">
+    <ScrollView
+      className="h-full"
+      style={{
+        paddingHorizontal: 20,
+        paddingTop: 20,
+        backgroundColor: "black",
+      }}
+    >
+      <View className="flex-row items-center justify-between mb-3">
         <TouchableOpacity onPress={() => router.back()}>
-            <ChevronLeft width={25} height={25} />
+          <ChevronLeft fill="white" width={25} height={25} />
         </TouchableOpacity>
-        <Vector
-            width={95}
-            height={25}
-            style={{margin: "auto" }}
-        />
-      </View>
-      <View
-        style={{ width: width, marginLeft: -20 }}
-        className="h-[5px] bg-[#787174]"
-      ></View>
-
-      <View style={{marginTop:20}} className="flex-row">
-        <Text style={{width:'90%'}} className="font-manropeMedium font-medium text-[14px] leading-[19px] color-[#191B1E]">
-            Netflix uses essential and performance & functionality cookies (why?).
-            You can change (.your cookie preferences).
-        </Text>
-        <Close width={20} height={20} style={{position:"absolute",right:0}}/>
-      </View>
-
-      <View style={{padding:10,width:"70%",marginTop:20}} className="border-[1px] border-[#726F73]">
-        <Text style={{color:"#726F73"}} className="font-manropeMedium font-medium text-[14px] leading-[19px]">Change your cookie preferences</Text>
-      </View>
-
-      <View className="flex-row" style={{ marginTop: 20 }}>
-        <TouchableOpacity className="flex-row" onPress={() => {
-            router.back();
-        }}>
-            <LeftArrow width={25} height={25} style={{ marginTop: 10 }} />
-          <Text
-            className="font-manropeMedium font-medium text-[20px] leading-[20px]"
-            style={{ marginTop: 15, marginLeft: 10, color: "#E50A14" }}
-          >
-            Back to Help Home
-          </Text>
-        </TouchableOpacity>
-        <View
-          style={{ padding: 10, position: "absolute", right: 0 }}
-          className="rounded-[4px] border-[1px] border-[#726F73]"
-        >
-          <Printer width={25} height={25} />
+        <Vector width={95} height={25} />
+        <View style={{ width: 135 }}>
+          <LanguagesDropDown ml={240} mt={105} />
         </View>
       </View>
 
-      <Text
-        style={{ marginTop: 30 }}
-        className="font-manropeExtraBold font-extrabold text-[32px] leading-[44px] color-[#000000]"
+      <View className="h-[5px] bg-[white] -mx-5 mb-4" />
+
+      {showCookieInfo ? (
+        <View className="flex-row items-start gap-x-2 mb-5 relative">
+          <Text className="font-manropeMedium text-[14px] text-[white] w-[90%]">
+            {t("your_cookie")}
+          </Text>
+          <TouchableOpacity
+            style={{ position: "absolute", right: 0 }}
+            onPress={handleToggleCookieInfo}
+          >
+            <Close stroke="white" width={20} height={20} />
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <TouchableOpacity onPress={handleToggleCookieInfo}>
+          <View className="flex-row items-center mb-5">
+            <ArrowDown fill="white" width={20} height={20} />
+            <Text className="ml-2 text-white font-manropeMedium text-[14px]">
+              {t("cookie_preferences_hidden")}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      )}
+
+      {message !== "" && (
+        <View className="border-[1px] border-white rounded-md p-3 mb-4">
+          <Text className="text-[white] font-manropeMedium text-[14px] text-center">
+            {message}
+          </Text>
+        </View>
+      )}
+
+      <TouchableOpacity
+        className="border border-white px-4 py-3 rounded-md w-[75%] mb-5"
+        activeOpacity={0.8}
+        onPress={handleCookieChange}
       >
-        Privacy Statement
+        <Text className="text-white font-manropeMedium text-[14px]">
+          {t("change_your_cookie_preferences")}
+        </Text>
+      </TouchableOpacity>
+
+      <View className="flex-row items-center justify-between mb-8">
+        <TouchableOpacity
+          className="flex-row items-center"
+          onPress={() => router.back()}
+        >
+          <LeftArrow width={25} height={25} />
+          <Text className="ml-3 text-[#E50A14] font-manropeMedium text-[20px]">
+            {t("back_to_help_home")}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity className="border border-white p-2 rounded-[4px]">
+          <Printer fill="white" width={25} height={25} />
+        </TouchableOpacity>
+      </View>
+
+      <Text className="font-manropeExtraBold text-[28px] text-white mb-5">
+        {t("privacy_statement")}
       </Text>
-      <Text
-        style={{ marginTop: 20 }}
-        className="font-manropeMedium font-medium text-[16px] leading-[24px] color-[#000000]"
-      >
-        This Privacy Statement explains our practices, including your choices,
-        regarding the collection, use, and disclosure of certain information,
-        including your personal information in connection with the Netflix
-        service.
+
+      <Text className="font-manropeMedium text-[16px] text-white leading-6 mb-5">
+        {t("netflix_service")}
       </Text>
-      <Text className="mt-[15px] font-manropeExtraBold font-extrabold text-[20px] leading-[27px] color-[#000000]">
-        Contacting Us
+
+      <Text className="font-manropeExtraBold text-[20px] text-white mb-2">
+        {t("contacting_us")}
       </Text>
-      <Text
-        style={{ marginTop: 10 }}
-        className="color-[#0000000] font-manropeMedium font-medium text-[16px] leading-[24px]"
-      >
-        If you have general questions about your account or how to contact
-        customer service for assistance, please visit our online help center at
-        <Text style={{ color: "#E50A14" }}> help.netflix.com.</Text> For
-        questions specifically about this Privacy Statement, or our use of your
-        personal information, cookies or similar technologies, please contact
-        our Data Protection Officer/Privacy Office by email at{" "}
-        <Text style={{ color: "#E50A14" }}>privacy@netflix.com.</Text>
+
+      <Text className="font-manropeMedium text-[16px] text-white leading-6">
+        {t("help_center")}{" "}
+        <Text style={{ color: "#E50A14" }}>{t("help_netflix_com")}</Text>{" "}
+        {t("office")}{" "}
+        <Text style={{ color: "#E50A14" }}>{t("privacy_netflix_com")}</Text>
       </Text>
-    </View>
+    </ScrollView>
   );
 };
 
 export default Privacy;
+
+export const unstable_settings = {
+  gestureEnabled: true,
+};

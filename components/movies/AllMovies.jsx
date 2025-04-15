@@ -1,22 +1,20 @@
+import { TouchableOpacity, Text, View } from "react-native";
+import { router } from "expo-router";
 import { Image } from "expo-image";
 import Constants from "expo-constants";
-import { TouchableOpacity } from "react-native";
-import { useRouter } from "expo-router";
 import defaultPoster from "../../assets/images/defaultPoster.png";
 
 const Base_Image_URL = Constants.expoConfig.extra.Base_Image_URL;
 
-const Similar = ({ item, index, mediaType }) => {
-  const router = useRouter();
-
+const AllMovies = ({ item, mediaType, index }) => {
   return (
     <TouchableOpacity
-      onPress={() => {
+      onPress={() =>
         router.push({
-          pathname: "/movies/similarDetails/[id]",
+          pathname: "/movies/details/[id]",
           params: { id: item?.id, mediaType: mediaType, start: "" },
-        });
-      }}
+        })
+      }
     >
       <Image
         source={
@@ -32,8 +30,20 @@ const Similar = ({ item, index, mediaType }) => {
         contentFit="cover"
         transition={500}
       />
+      <View
+        style={{
+          width: 120,
+          display: "flex",
+          justifyContent: "center",
+          marginLeft: index != 0 && 20,
+        }}
+      >
+        <Text className="w-full color-white text-center mt-[10px]">
+          {item?.title}
+        </Text>
+      </View>
     </TouchableOpacity>
   );
 };
 
-export default Similar;
+export default AllMovies;

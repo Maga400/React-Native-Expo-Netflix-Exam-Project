@@ -1,19 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Platform, ActivityIndicator, View, Animated } from "react-native";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, View, Animated } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { Tabs, router, Redirect } from "expo-router";
-import { HapticTab } from "@/components/HapticTab";
-import { IconSymbol } from "@/components/ui/IconSymbol";
-import TabBarBackground from "@/components/ui/TabBarBackground";
+import { Tabs, Redirect } from "expo-router";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { TouchableWithoutFeedback } from "react-native";
-
+import { Ionicons } from "@expo/vector-icons";
 import "../../global.css";
 
-// Custom Tab Bar Icon Animation
+
 const AnimatedTabIcon = ({ focused, color, name }) => {
   const scale = focused ? new Animated.Value(1.2) : new Animated.Value(1);
 
@@ -28,7 +23,7 @@ const AnimatedTabIcon = ({ focused, color, name }) => {
 
   return (
     <Animated.View style={{ transform: [{ scale }] }}>
-      <IconSymbol size={28} name={name} color={color} />
+      <Ionicons size={28} name={name} color={color} />
     </Animated.View>
   );
 };
@@ -87,14 +82,13 @@ export default function TabLayout() {
         <Tabs
           screenOptions={{
             tabBarActiveTintColor: "white",
-            tabBarInactiveTintColor: "white",
+            tabBarInactiveTintColor: "gray",
             headerShown: false,
-            tabBarButton: HapticTab,
             tabBarStyle: {
               backgroundColor: "#211E22",
               position: "relative",
               borderTopWidth: 0,
-              paddingTop:5,
+              paddingTop: 5,
               height: 60,
               shadowColor: "#000",
               shadowOffset: { width: 0, height: -4 },
@@ -109,7 +103,7 @@ export default function TabLayout() {
             options={{
               title: "Home",
               tabBarIcon: ({ color, focused }) => (
-                <AnimatedTabIcon focused={focused} color={color} name="house.fill" />
+                <AnimatedTabIcon focused={focused} color={color} name={focused ? "home" : "home-outline"} />
               ),
             }}
           />
@@ -119,16 +113,17 @@ export default function TabLayout() {
             options={{
               title: "Search",
               tabBarIcon: ({ color, focused }) => (
-                <AnimatedTabIcon focused={focused} color={color} name="magnifyingglass" />
+                <AnimatedTabIcon focused={focused} color={color} name={focused ? "search" : "search-outline"} />
               ),
             }}
           />
+          
           <Tabs.Screen
             name="profile"
             options={{
               title: "Profile",
               tabBarIcon: ({ color, focused }) => (
-                <AnimatedTabIcon focused={focused} color={color} name="person.fill" />
+                <AnimatedTabIcon focused={focused} color={color} name={focused ? "person" : "person-outline"} />
               ),
             }}
           />
