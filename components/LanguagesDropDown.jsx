@@ -10,10 +10,13 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 import { changeLanguage } from "../i18n";
+import { useTheme } from "@/theme/ThemeContext";
 
-const LanguagesDropDown = ({ml,mt}) => {
+const LanguagesDropDown = ({ ml, mt }) => {
   const { t, i18n } = useTranslation();
   const [expanded, setExpanded] = useState(false);
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   const languages = [
     { label: t("english"), value: "en" },
@@ -25,13 +28,13 @@ const LanguagesDropDown = ({ml,mt}) => {
   const [selectedLabel, setSelectedLabel] = useState("");
 
   useEffect(() => {
-    const currentLang = languages.find(lang => lang.value === i18n.language);
+    const currentLang = languages.find((lang) => lang.value === i18n.language);
     if (currentLang) {
       setSelectedLabel(currentLang.label);
     }
   }, [i18n.language, t]);
 
-  const toggleExpanded = () => setExpanded(prev => !prev);
+  const toggleExpanded = () => setExpanded((prev) => !prev);
 
   const onSelect = (item) => {
     changeLanguage(item.value);
@@ -40,12 +43,17 @@ const LanguagesDropDown = ({ml,mt}) => {
   };
 
   return (
-    <View style={{ width: 160, backgroundColor: "black", paddingHorizontal: 20 }}>
+    <View
+      style={{
+        width: 160,
+        paddingHorizontal: 20,
+      }}
+    >
       <TouchableOpacity
         onPress={toggleExpanded}
         style={{
           height: 30,
-          backgroundColor: "#fff",
+          backgroundColor: isDark ? "white" : "black",
           justifyContent: "space-between",
           alignItems: "center",
           flexDirection: "row",
@@ -54,8 +62,13 @@ const LanguagesDropDown = ({ml,mt}) => {
           marginTop: 6,
         }}
       >
-        <Text style={{ fontSize: 13, opacity: 0.8 }}>{selectedLabel}</Text>
-        <AntDesign name={expanded ? "caretup" : "caretdown"} />
+        <Text
+          style={{ fontSize: 13}}
+          className={`${isDark ? "text-black" : "text-white"}`}
+        >
+          {selectedLabel}
+        </Text>
+        <AntDesign color={isDark ? "black" : "white"} name={expanded ? "caretup" : "caretdown"} />
       </TouchableOpacity>
 
       {expanded && (
@@ -66,18 +79,18 @@ const LanguagesDropDown = ({ml,mt}) => {
                 flex: 1,
                 justifyContent: "start",
                 alignItems: "center",
-                marginTop:5
+                marginTop: 5,
               }}
             >
               <View
                 style={{
-                  backgroundColor: "white",
+                  backgroundColor: isDark ? "white" : "black",
                   width: 120,
                   padding: 10,
                   borderRadius: 6,
                   maxHeight: 250,
-                  marginTop:mt,
-                  marginLeft:ml
+                  marginTop: mt,
+                  marginLeft: ml,
                 }}
               >
                 <FlatList
@@ -88,7 +101,7 @@ const LanguagesDropDown = ({ml,mt}) => {
                       style={{ height: 45, justifyContent: "center" }}
                       onPress={() => onSelect(item)}
                     >
-                      <Text>{item.label}</Text>
+                      <Text className={`${isDark ? "text-black" : "text-white"}`}>{item.label}</Text>
                     </TouchableOpacity>
                   )}
                   ItemSeparatorComponent={<View style={{ height: 10 }} />}

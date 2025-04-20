@@ -13,6 +13,7 @@ import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
+import {MyThemeProvider} from "@/theme/ThemeContext"; 
 
 SplashScreen.preventAutoHideAsync();
 
@@ -45,63 +46,67 @@ export default function RootLayout() {
   }
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
-        <ThemeProvider
-          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-        >
-          <Stack screenOptions={{ headerShown: false, gestureEnabled: false }}>
-            <Stack.Screen name="(tabs)/home" />
-            <Stack.Screen name="+not-found" />
-            <Stack.Screen
-              name="movies/details/[id]"
-              options={{ gestureEnabled: true }}
-            />
-            <Stack.Screen
-              name="movies/allMovies"
-              options={{ gestureEnabled: true }}
-            />
-            <Stack.Screen
-              name="tvShows/index"
-              options={{ gestureEnabled: true }}
-            />
-            <Stack.Screen
-              name="movies/moreinfo"
-              options={{ gestureEnabled: true }}
-            />
-            <Stack.Screen
-              name="movies/moreinfoTv"
-              options={{ gestureEnabled: true }}
-            />
-            <Stack.Screen
-              name="board/privacy"
-              options={{ gestureEnabled: true }}
-            />
-            <Stack.Screen
-              name="artists/details/[id]"
-              options={{ gestureEnabled: true }}
-            />
-            <Stack.Screen
-              name="categories/movies/index"
-              options={{ gestureEnabled: true }}
-            />
-            <Stack.Screen
-              name="categories/tvShows/index"
-              options={{ gestureEnabled: true }}
-            />
-            <Stack.Screen
-              name="genres/movies/index"
-              options={{ gestureEnabled: true }}
-            />
-            <Stack.Screen
-              name="genres/tvShows/index"
-              options={{ gestureEnabled: true }}
-            />
-          </Stack>
-          <StatusBar style="light" translucent />
-          <Toast />
-        </ThemeProvider>
-      </SafeAreaView>
-    </SafeAreaProvider>
+    <MyThemeProvider>
+      <SafeAreaProvider>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
+          <ThemeProvider
+            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+          >
+            <Stack
+              screenOptions={{ headerShown: false, gestureEnabled: false }}
+            >
+              <Stack.Screen name="(tabs)/home" />
+              <Stack.Screen name="+not-found" />
+              <Stack.Screen
+                name="movies/details/[id]"
+                options={{ gestureEnabled: true }}
+              />
+              <Stack.Screen
+                name="movies/allMovies"
+                options={{ gestureEnabled: true }}
+              />
+              <Stack.Screen
+                name="tvShows/index"
+                options={{ gestureEnabled: true }}
+              />
+              <Stack.Screen
+                name="movies/moreinfo"
+                options={{ gestureEnabled: true }}
+              />
+              <Stack.Screen
+                name="movies/moreinfoTv"
+                options={{ gestureEnabled: true }}
+              />
+              <Stack.Screen
+                name="board/privacy"
+                options={{ gestureEnabled: true }}
+              />
+              <Stack.Screen
+                name="artists/details/[id]"
+                options={{ gestureEnabled: true }}
+              />
+              <Stack.Screen
+                name="categories/movies/index"
+                options={{ gestureEnabled: true }}
+              />
+              <Stack.Screen
+                name="categories/tvShows/index"
+                options={{ gestureEnabled: true }}
+              />
+              <Stack.Screen
+                name="genres/movies/index"
+                options={{ gestureEnabled: true }}
+              />
+              <Stack.Screen
+                name="genres/tvShows/index"
+                options={{ gestureEnabled: true }}
+              />
+            </Stack>
+            <StatusBar style="light" translucent />
+            <Toast />
+          </ThemeProvider>
+        </SafeAreaView>
+      </SafeAreaProvider>
+    </MyThemeProvider>
   );
 }

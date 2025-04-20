@@ -17,6 +17,8 @@ import Boarding from "../../components/Boarding";
 import LanguagesDropDown from "../../components/LanguagesDropDown";
 import "../../i18n";
 import { useTranslation } from "react-i18next";
+import ThemeToggle from "../../components/ThemeToggle";
+import { useTheme } from "@/theme/ThemeContext";
 
 const Board = () => {
   const [boardIndex, setBoardIndex] = useState(0);
@@ -24,13 +26,14 @@ const Board = () => {
   const lastIndex = 3;
   const router = useRouter();
   const { t, i18n } = useTranslation();
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === "dark";
 
   const data = [
     {
       id: 1,
       title: t("title1"),
-      description:
-        t("description1"),
+      description: t("description1"),
       icon: <Laptop width={265} height={250} />,
       weight: "w-[320px]",
     },
@@ -71,10 +74,13 @@ const Board = () => {
   return (
     <ImageBackground
       source={bg}
-      style={{ backgroundColor: "#000000" }}
-      className="w-full h-full justify-center items-center"
+      style={{ backgroundColor: isDark ? "black" : "white" }}
+      className="flex-1 w-full h-full justify-center items-center"
     >
-      <View className="w-full flex flex-row justify-end">
+      <View className={`w-full flex flex-row justify-end`}>
+        <View className="mt-[5px] mr-[10px]">
+          <ThemeToggle />
+        </View>
         <LanguagesDropDown ml={230} mt={85} />
       </View>
       <View className="w-full flex flex-row justify-between px-[20px]">
@@ -85,11 +91,19 @@ const Board = () => {
               router.push("board/privacy");
             }}
           >
-            <Text className="top-[51px] font-normal font-robotoRegular text-[14px] leading-[17px] color-[#FFFFFF]">
+            <Text
+              className={`top-[51px] font-normal font-robotoRegular text-[14px] leading-[17px] ${
+                isDark ? "text-white" : "text-black"
+              } ${lastIndex == boardIndex && "text-white"}`}
+            >
               {t("privacy")}
             </Text>
           </TouchableOpacity>
-          <Text className="top-[51px] ml-[10px] font-normal font-robotoRegular text-[14px] leading-[17px] color-[#FFFFFF]">
+          <Text
+            className={`top-[51px] ml-[10px] font-normal font-robotoRegular text-[14px] leading-[17px] ${
+              isDark ? "text-white" : "text-black"
+            } ${lastIndex == boardIndex && "text-white"}`}
+          >
             {t("help")}
           </Text>
         </View>
@@ -109,7 +123,11 @@ const Board = () => {
             key={index}
             className={`rounded-[4px] w-[10px] h-[10px] ${
               index != 0 && "ml-[20px]"
-            } ${boardIndex === index ? "bg-red-600" : "bg-gray-300"}`}
+            } ${boardIndex == lastIndex && boardIndex != index && "bg-white"} ${
+              boardIndex == index
+                ? "bg-red-600"
+                : ` ${isDark ? "bg-white" : "bg-black"}`
+            } `}
           ></View>
         ))}
       </View>
@@ -119,7 +137,11 @@ const Board = () => {
         style={{ width: width }}
         className="bg-[#E50914] mb-[10px] mx-[10px] py-[10px] items-center"
       >
-        <Text className="font-robotoRegular font-extrabold text-[14px] leading-[16px] color-[#000000]">
+        <Text
+          className={`font-robotoRegular font-extrabold text-[14px] leading-[16px] ${
+            isDark ? "text-white" : "text-black"
+          }`}
+        >
           {t("next")}
         </Text>
       </TouchableOpacity>

@@ -20,6 +20,7 @@ import TvIcon from "../../assets/icons/tv.svg";
 import LanguagesDropDown from "../../components/LanguagesDropDown";
 import "../../i18n";
 import { useTranslation } from "react-i18next";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const IP_URL = Constants.expoConfig.extra.IP_URL;
 const Base_Image_URL = Constants.expoConfig.extra.Base_Image_URL;
@@ -75,6 +76,8 @@ const Movies = () => {
   useEffect(() => {
     getTrendingMovies();
     getTrendingTVShows();
+    // AsyncStorage.removeItem("token");
+    // AsyncStorage.removeItem("first");
   }, []);
 
   useEffect(() => {

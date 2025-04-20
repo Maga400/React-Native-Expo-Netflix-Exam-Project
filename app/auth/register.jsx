@@ -11,6 +11,8 @@ import Toast from "react-native-toast-message";
 import LanguagesDropDown from "../../components/LanguagesDropDown";
 import "../../i18n";
 import { useTranslation } from "react-i18next";
+import { useTheme } from "@/theme/ThemeContext";
+import ThemeToggle from "../../components/ThemeToggle";
 
 const IP_URL = Constants.expoConfig.extra.IP_URL;
 
@@ -20,6 +22,8 @@ const Register = () => {
   const { t, i18n } = useTranslation();
   const os = Platform.OS;
   const router = useRouter();
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === "dark";
 
   const register = async () => {
     try {
@@ -51,7 +55,7 @@ const Register = () => {
   return (
     <View
       style={{
-        backgroundColor: "#000000",
+        backgroundColor: isDark ? "black" : "white",
         paddingHorizontal: 20,
         paddingVertical: 10,
       }}
@@ -59,11 +63,20 @@ const Register = () => {
     >
       <View className="w-full flex flex-row justify-between">
         <Vector style={{ marginTop: 12 }} width={89} height={24} />
-        <LanguagesDropDown ml={190} mt={95} />
+        <View className="flex flex-row justify-between">
+          <View className="mt-[5px] mr-[10px]">
+            <ThemeToggle />
+          </View>
+          <View className="w-[135px]">
+            <LanguagesDropDown ml={240} mt={95} />
+          </View>
+        </View>
       </View>
       <Text
         style={{ fontWeight: 700, lineHeight: 37.5 }}
-        className="mt-[200px] color-white text-[32px] font-robotoRegular"
+        className={`mt-[200px] ${
+          isDark ? "color-white" : "color-black"
+        } text-[32px] font-robotoRegular`}
       >
         {t("sign_up")}
       </Text>
@@ -73,11 +86,13 @@ const Register = () => {
         value={formData?.username}
         placeholder={t("username")}
         style={{
-          backgroundColor: "#161616B2",
+          backgroundColor: isDark ? "#161616B2" : "black",
           fontWeight: 400,
           lineHeight: 24,
         }}
-        className={`mt-[30px] text-[#FFFFFFB2] text-[16px] border-[1px] font-robotoRegular rounded-[4px] border-[#808080B2] pl-4 bg-white ${
+        className={`mt-[30px] ${
+          isDark ? "text-[#FFFFFFB2]" : "text-white"
+        } text-[16px] border-[1px] font-robotoRegular rounded-[4px] border-[#808080B2] pl-4 bg-white ${
           os === "ios" && "py-4"
         }`}
       />
@@ -87,11 +102,13 @@ const Register = () => {
         value={formData?.email}
         placeholder={t("email")}
         style={{
-          backgroundColor: "#161616B2",
+          backgroundColor: isDark ? "#161616B2" : "black",
           fontWeight: 400,
           lineHeight: 24,
         }}
-        className={`mt-[15px] text-[#FFFFFFB2] text-[16px] border-[1px] font-robotoRegular rounded-[4px] border-[#808080B2] pl-4 bg-white ${
+        className={`mt-[15px] ${
+          isDark ? "text-[#FFFFFFB2]" : "text-white"
+        } text-[16px] border-[1px] font-robotoRegular rounded-[4px] border-[#808080B2] pl-4 bg-white ${
           os === "ios" && "py-4"
         }`}
       />
@@ -103,11 +120,13 @@ const Register = () => {
           value={formData?.password}
           placeholder={t("password")}
           style={{
-            backgroundColor: "#161616B2",
+            backgroundColor: isDark ? "#161616B2" : "black",
             fontWeight: 400,
             lineHeight: 24,
           }}
-          className={`mt-[15px] text-[#FFFFFFB2] text-[16px] border-[1px] font-robotoRegular rounded-[4px] border-[#808080B2] pl-4 bg-white ${
+          className={`mt-[15px] ${
+            isDark ? "text-[#FFFFFFB2]" : "text-white"
+          } text-[16px] border-[1px] font-robotoRegular rounded-[4px] border-[#808080B2] pl-4 bg-white ${
             os === "ios" && "py-4"
           }`}
         />
@@ -137,10 +156,18 @@ const Register = () => {
         }}
         className="flex-row justify-center items-center"
       >
-        <Text className="mt-[25px] color-[#FFFFFFB2] font-robotoRegular font-normal text-[16px] leading-[19px]">
+        <Text
+          className={`mt-[25px] ${
+            isDark ? "text-[#FFFFFFB2]" : "text-black"
+          }  font-montserrat font-normal text-[14px] leading-[19px]`}
+        >
           {t("already_have_an_to_netflix")}{" "}
         </Text>
-        <Text className="mt-[25px] color-[#FFFFFF] font-robotoRegular font-medium text-[16px] leading-[19px]">
+        <Text
+          className={`mt-[25px] ${
+            isDark ? "text-[#FFFFFFFF]" : "text-black"
+          } font-montserratBold font-bold text-[14px] leading-[19px]`}
+        >
           {t("sign_in")}
         </Text>
       </TouchableOpacity>

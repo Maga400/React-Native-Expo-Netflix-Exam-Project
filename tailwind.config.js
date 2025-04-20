@@ -18,9 +18,13 @@ module.exports = {
         manropeRegular: "Manrope-Regular",
         manropeMedium: "Manrope-Medium",
         manropeExtraBold: "Manrope-ExtraBold",
-
+      },
+      colors: {
+        customGreen: "#32CD32",
+        customYellow: "#F5DE49",
       },
     },
+    darkMode: 'class', // önemli!
   },
   plugins: [],
 };
