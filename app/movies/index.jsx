@@ -4,7 +4,7 @@ import {
   FlatList,
   Dimensions,
   ImageBackground,
-  ScrollView, 
+  ScrollView,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
@@ -21,6 +21,8 @@ import LanguagesDropDown from "../../components/LanguagesDropDown";
 import "../../i18n";
 import { useTranslation } from "react-i18next";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ThemeToggle from "../../components/ThemeToggle";
+import { useTheme } from "@/theme/ThemeContext";
 
 const IP_URL = Constants.expoConfig.extra.IP_URL;
 const Base_Image_URL = Constants.expoConfig.extra.Base_Image_URL;
@@ -35,6 +37,8 @@ const Movies = () => {
   const width = Dimensions.get("window").width - 40;
   const [path, setPath] = useState("");
   const { t, i18n } = useTranslation();
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === "dark";
 
   const getTrendingMovies = async (page = 1) => {
     setIsLoading(true);
@@ -88,20 +92,28 @@ const Movies = () => {
   return (
     <ScrollView
       contentContainerStyle={{ paddingBottom: 20 }}
-      className="bg-black p-5"
+      className={`${isDark ? "bg-black" : "bg-white"} p-5`}
     >
+      {/* <Vector width={90} height={30} style={{ margin:"auto"}} /> */}
       <View className="flex flex-row justify-between">
-        <Vector width={90} height={30} style={{ marginTop: 10 }} />
+        <View className="mt-[5px]">
+          <ThemeToggle />
+        </View>
         <View className="flex flex-row">
           <View>
             <LanguagesDropDown ml={35} mt={100} />
           </View>
           <TouchableOpacity onPress={() => router.push("/movies/allMovies")}>
-            <MovieIcon width={30} height={40} />
+            <MovieIcon stroke="black" width={30} height={40} />
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => router.push("/tvShows")}>
-            <TvIcon width={40} height={40} style={{ marginLeft: 10 }} />
+            <TvIcon
+              stroke="black"
+              width={40}
+              height={40}
+              style={{ marginLeft: 10 }}
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -183,7 +195,7 @@ const Movies = () => {
         style={{
           fontFamily: "Roboto-Regular",
           fontSize: 20,
-          color: "#FFFFFF",
+          color: isDark ? "#FFFFFF" : "black",
           marginTop: 20,
         }}
       >
@@ -230,13 +242,14 @@ const Movies = () => {
           flexDirection: "row",
           justifyContent: "space-between",
           marginTop: 20,
+          backgroundColor: isDark ? "black" : "white",
         }}
       >
         <TouchableOpacity
           style={{
             paddingVertical: 12,
             paddingHorizontal: 20,
-            backgroundColor: "rgba(0, 0, 0, 0.7)",
+            backgroundColor: isDark ? "rgba(0, 0, 0, 0.7)" : "#f5f5f5",
             borderRadius: 30,
             flex: 1,
             marginRight: 10,
@@ -253,7 +266,7 @@ const Movies = () => {
         >
           <Text
             style={{
-              color: "#FFFFFF",
+              color: isDark ? "#FFFFFF" : "black",
               textAlign: "center",
               fontWeight: "bold",
             }}
@@ -266,7 +279,7 @@ const Movies = () => {
           style={{
             paddingVertical: 12,
             paddingHorizontal: 20,
-            backgroundColor: "rgba(0, 0, 0, 0.7)",
+            backgroundColor: isDark ? "rgba(0, 0, 0, 0.7)" : "#f5f5f5",
             borderRadius: 30,
             flex: 1,
             justifyContent: "center",
@@ -282,7 +295,7 @@ const Movies = () => {
         >
           <Text
             style={{
-              color: "#FFFFFF",
+              color: isDark ? "#FFFFFF" : "black",
               textAlign: "center",
               fontWeight: "bold",
             }}
@@ -296,7 +309,7 @@ const Movies = () => {
         style={{
           fontFamily: "Roboto-Regular",
           fontSize: 20,
-          color: "#FFFFFF",
+          color: isDark ? "#FFFFFF" : "black",
           marginTop: 30,
         }}
       >
@@ -343,13 +356,14 @@ const Movies = () => {
           flexDirection: "row",
           justifyContent: "space-between",
           marginTop: 20,
+          backgroundColor: isDark ? "black" : "white",
         }}
       >
         <TouchableOpacity
           style={{
             paddingVertical: 12,
             paddingHorizontal: 20,
-            backgroundColor: "rgba(0, 0, 0, 0.7)",
+            backgroundColor: isDark ? "rgba(0, 0, 0, 0.7)" : "#f5f5f5",
             borderRadius: 30,
             flex: 1,
             marginRight: 10,
@@ -366,7 +380,7 @@ const Movies = () => {
         >
           <Text
             style={{
-              color: "#FFFFFF",
+              color: isDark ? "#FFFFFF" : "black",
               textAlign: "center",
               fontWeight: "bold",
             }}
@@ -379,7 +393,7 @@ const Movies = () => {
           style={{
             paddingVertical: 12,
             paddingHorizontal: 20,
-            backgroundColor: "rgba(0, 0, 0, 0.7)",
+            backgroundColor: isDark ? "rgba(0, 0, 0, 0.7)" : "#f5f5f5",
             borderRadius: 30,
             flex: 1,
             justifyContent: "center",
@@ -395,7 +409,7 @@ const Movies = () => {
         >
           <Text
             style={{
-              color: "#FFFFFF",
+              color: isDark ? "#FFFFFF" : "black",
               textAlign: "center",
               fontWeight: "bold",
             }}

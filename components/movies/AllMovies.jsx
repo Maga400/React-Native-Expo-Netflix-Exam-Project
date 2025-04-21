@@ -3,10 +3,14 @@ import { router } from "expo-router";
 import { Image } from "expo-image";
 import Constants from "expo-constants";
 import defaultPoster from "../../assets/images/defaultPoster.png";
+import { useTheme } from "@/theme/ThemeContext";
 
 const Base_Image_URL = Constants.expoConfig.extra.Base_Image_URL;
 
 const AllMovies = ({ item, mediaType, index }) => {
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === "dark";
+
   return (
     <TouchableOpacity
       onPress={() =>
@@ -38,7 +42,7 @@ const AllMovies = ({ item, mediaType, index }) => {
           marginLeft: index != 0 && 20,
         }}
       >
-        <Text className="w-full color-white text-center mt-[10px]">
+        <Text className={`w-full ${isDark ? "color-white" : "color-black"} text-center mt-[10px]`}>
           {item?.title}
         </Text>
       </View>

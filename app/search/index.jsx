@@ -18,6 +18,8 @@ import LanguagesDropDown from "../../components/LanguagesDropDown";
 import "../../i18n";
 import { useTranslation } from "react-i18next";
 import defaultPoster from "../../assets/images/defaultPoster.png";
+import ThemeToggle from "../../components/ThemeToggle";
+import { useTheme } from "@/theme/ThemeContext";
 
 const IP_URL = Constants.expoConfig.extra.IP_URL;
 const Base_Image_URL = Constants.expoConfig.extra.Base_Image_URL;
@@ -34,6 +36,8 @@ const Index = () => {
   const [actorsFirst, setActorsFirst] = useState(false);
   const [moviesFirst, setMoviesFirst] = useState(false);
   const [tvShowsFirst, setTvShowsFirst] = useState(false);
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === "dark";
 
   const getMovies = async (signal) => {
     try {
@@ -169,19 +173,31 @@ const Index = () => {
   return (
     <ScrollView
       contentContainerStyle={{ paddingBottom: 20 }}
-      className="bg-[#000000] h-full"
+      className={`${isDark ? "bg-black" : "bg-white"} h-full`}
     >
       <View className="px-[20px]">
-        <View className="flex flex-row justify-end">
-          <LanguagesDropDown ml={190} mt={85} />
+        <View className="flex flex-row justify-between">
+          <View className="mt-[5px]">
+            <ThemeToggle />
+          </View>
+          <View className="w-[145px]">
+            <LanguagesDropDown ml={220} mt={85} />
+          </View>
         </View>
         <View className="mt-[20px]">
           <TextInput
             value={search}
             onChangeText={setSearch}
-            placeholderTextColor="#FFFFFFB2"
-            style={{ borderColor: "#808080B2", borderWidth: 3 }}
-            className="pr-[40px] font-robotoRegular pl-[20px] rounded-[4px] text-[#FFFFFFB2] font-normal text-[14px] leading-[24px] bg-[#161616B2] py-[20px]"
+            placeholderTextColor={isDark ? "#FFFFFFB2" : "#808080"}
+            style={{
+              borderColor: isDark ? "#808080B2" : "#CCCCCC",
+              borderWidth: 3,
+            }}
+            className={`pr-[40px] font-robotoRegular pl-[20px] rounded-[4px] ${
+              isDark ? "text-[#FFFFFFB2]" : "text-[#333333]"
+            } font-normal text-[14px] leading-[24px] ${
+              isDark ? "bg-[#161616B2" : "bg-[#F5F5F5]"
+            } py-[20px]`}
             placeholder={t("search")}
           />
 
@@ -189,6 +205,7 @@ const Index = () => {
             width={20}
             height={20}
             style={{ position: "absolute", right: 20, marginTop: 25 }}
+            fill= {isDark ? "black" : "white"}
           />
         </View>
         {loadingActors ? (
@@ -201,7 +218,11 @@ const Index = () => {
         ) : (
           <View>
             {!loadingActors && actorsFirst && (
-              <Text className="mt-[40px] text-[20px] leading-[32px] font-robotoRegular font-normal color-[#FFFFFF]">
+              <Text
+                className={`mt-[40px] text-[20px] leading-[32px] font-robotoRegular font-normal ${
+                  isDark ? "color-[#FFFFFF]" : "color-black"
+                }`}
+              >
                 {t("artists")}
               </Text>
             )}
@@ -221,7 +242,9 @@ const Index = () => {
                       marginTop: 20,
                     }}
                   >
-                    <Text style={{ color: "#fff", fontSize: 16 }}>
+                    <Text
+                      style={{ color: isDark ? "#fff" : "black", fontSize: 16 }}
+                    >
                       {t("no_actors_available")}
                     </Text>
                   </View>
@@ -259,7 +282,11 @@ const Index = () => {
                         style={{ margin: "auto", borderRadius: 100 }}
                       />
                     )}
-                    <Text className="color-[#FFFFFF] text-center mt-[10px] text-[12px] leading-[12px] font-normal font-robotoRegular">
+                    <Text
+                      className={`${
+                        isDark ? "color-[#FFFFFF]" : "color-black"
+                      } text-center mt-[10px] text-[12px] leading-[12px] font-normal font-robotoRegular`}
+                    >
                       {item?.name}
                     </Text>
                   </TouchableOpacity>
@@ -279,7 +306,11 @@ const Index = () => {
         ) : (
           <View>
             {!loadingMovies && moviesFirst && (
-              <Text className="mt-[40px] text-[20px] leading-[32px] font-robotoRegular font-normal color-[#FFFFFF]">
+              <Text
+                className={`mt-[40px] text-[20px] leading-[32px] font-robotoRegular font-normal ${
+                  isDark ? "color-[#FFFFFF]" : "color-black"
+                }`}
+              >
                 {t("movies")}
               </Text>
             )}
@@ -299,7 +330,9 @@ const Index = () => {
                       marginTop: 20,
                     }}
                   >
-                    <Text style={{ color: "#fff", fontSize: 16 }}>
+                    <Text
+                      style={{ color: isDark ? "#fff" : "black", fontSize: 16 }}
+                    >
                       {t("no_movies_available")}
                     </Text>
                   </View>
@@ -352,7 +385,11 @@ const Index = () => {
         ) : (
           <View>
             {!loadingTvShows && tvShowsFirst && (
-              <Text className="mt-[40px] text-[20px] leading-[32px] font-robotoRegular font-normal color-[#FFFFFF]">
+              <Text
+                className={`mt-[40px] text-[20px] leading-[32px] font-robotoRegular font-normal ${
+                  isDark ? "color-[#FFFFFF]" : "color-black"
+                }`}
+              >
                 {t("tv_shows")}
               </Text>
             )}
@@ -373,7 +410,7 @@ const Index = () => {
                       marginTop: 20,
                     }}
                   >
-                    <Text style={{ color: "#fff", fontSize: 16 }}>
+                    <Text style={{ color: isDark ? "#fff" : "black", fontSize: 16 }}>
                       {t("no_tv_shows_available")}
                     </Text>
                   </View>

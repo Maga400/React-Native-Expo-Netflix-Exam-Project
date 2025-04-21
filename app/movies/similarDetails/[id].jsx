@@ -14,9 +14,12 @@ import YoutubePlayer from "react-native-youtube-iframe";
 import Similar from "../../../components/similar/Similar";
 import Constants from "expo-constants";
 import LeftArrow2 from "../../../assets/icons/leftArrow2";
+import LeftArrow3 from "../../../assets/icons/leftArrow3";
 import "../../../i18n";
 import { useTranslation } from "react-i18next";
 import LanguagesDropDown from "../../../components/LanguagesDropDown";
+import ThemeToggle from "../../../components/ThemeToggle";
+import { useTheme } from "@/theme/ThemeContext";
 
 const IP_URL = Constants.expoConfig.extra.IP_URL;
 
@@ -31,6 +34,8 @@ const SimilarDetails = () => {
   const width = Dimensions.get("window").width - 40;
   const router = useRouter();
   const { t, i18n } = useTranslation();
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === "dark";
 
   const getData = async () => {
     try {
@@ -116,12 +121,21 @@ const SimilarDetails = () => {
   }, [i18n.language]);
 
   return (
-    <ScrollView className="bg-[#000000] h-full w-full">
+    <ScrollView className={`${isDark ? "bg-black" : "bg-white"} h-full w-full`}>
       <View className="flex flex-row justify-between mb-[20px]">
         <TouchableOpacity onPress={() => router.back()}>
-          <LeftArrow2 width={40} height={40} />
+          {isDark ? (
+            <LeftArrow2 height={40} width={40} />
+          ) : (
+            <LeftArrow3 height={40} width={40} />
+          )}
         </TouchableOpacity>
-        <LanguagesDropDown ml={230} mt={85} />
+        <View className="flex flex-row mt-[0px]">
+          <View className="mt-[7px]">
+            <ThemeToggle />
+          </View>
+          <LanguagesDropDown ml={230} mt={85} />
+        </View>
       </View>
 
       <YoutubePlayer
@@ -132,7 +146,11 @@ const SimilarDetails = () => {
       />
 
       {(data?.title || data?.name) && (
-        <Text className="font-normal font-robotoRegular text-[36px] leading-[40px] color-[#FFFFFF] mt-[20px] ml-[20px]">
+        <Text
+          className={`font-normal font-robotoRegular text-[36px] leading-[40px] ${
+            isDark ? "color-[#FFFFFF]" : "color-black"
+          } mt-[20px] ml-[20px]`}
+        >
           {mediaType === "movie" ? data?.title : data?.name}
         </Text>
       )}
@@ -146,11 +164,17 @@ const SimilarDetails = () => {
           {genres?.map((item, index) => (
             <View
               key={item?.id}
-              className={`bg-[#27272A] px-[20px] py-[10px] rounded-[4px] ${
+              className={`${
+                isDark ? "bg-[#27272A]" : "bg-[#F3F4F6]"
+              } px-[20px] py-[10px] rounded-[4px] ${
                 index !== 0 && "ml-[20px]"
               }`}
             >
-              <Text className="color-[#FFFFFF] font-inter18ptRegular font-normal text-[12px] leading-[24px]">
+              <Text
+                className={`${
+                  isDark ? "color-[#FFFFFF]" : "color-[#1F2937]"
+                } font-inter18ptRegular font-normal text-[12px] leading-[24px]`}
+              >
                 {item?.name}
               </Text>
             </View>
@@ -161,7 +185,9 @@ const SimilarDetails = () => {
       {data?.overview && (
         <Text
           style={{ width: width }}
-          className="mt-[20px] font-poppinsRegular font-normal text-[14px] leading-[24px] ml-[20px] color-[#FFFFFF]"
+          className={`mt-[20px] font-poppinsRegular font-normal text-[14px] leading-[24px] ml-[20px] ${
+            isDark ? "color-[#FFFFFF]" : "color-black"
+          }`}
         >
           {data?.overview}
         </Text>
@@ -177,7 +203,11 @@ const SimilarDetails = () => {
       ) : (
         <>
           {!loadingSimilar && (
-            <Text className="ml-[20px] mt-[30px] text-[20px] leading-[32px] font-robotoRegular font-normal color-[#FFFFFF]">
+            <Text
+              className={`ml-[20px] mt-[30px] text-[20px] leading-[32px] font-robotoRegular font-normal ${
+                isDark ? "color-[#FFFFFF]" : "color-[black]"
+              }`}
+            >
               {mediaType === "movie"
                 ? t("similar_movies")
                 : t("similar_tv_shows")}
@@ -200,7 +230,7 @@ const SimilarDetails = () => {
                     marginTop: 20,
                   }}
                 >
-                  <Text style={{ color: "#fff", fontSize: 16 }}>
+                  <Text style={{ color: isDark ? "#fff" : "black", fontSize: 16 }}>
                     {mediaType == "movie"
                       ? t("no_movies_available")
                       : t("no_tv_shows_available")}
@@ -233,9 +263,9 @@ const SimilarDetails = () => {
             },
           });
         }}
-        className="bg-[#444444] p-[12px] mt-[20px] mx-[20px] rounded-[8px] items-center"
+        className={`${isDark ? "bg-[#444444]" : "bg-[#F3F4F6]"} border-[1px] ${isDark ?  "border-zinc-900" : "border-[#E5E7EB]"} p-[12px] my-[20px] mx-[20px] rounded-[8px] items-center`}
       >
-        <Text className="color-[#FFFFFF] text-[16px] font-montserratSemiBold">
+        <Text className={`${isDark ? "color-[#FFFFFF]" : "color-[#1F2937]"} text-[16px] font-montserratSemiBold`}>
           {t("more_info")}
         </Text>
       </TouchableOpacity>

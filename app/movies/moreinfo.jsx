@@ -12,11 +12,14 @@ import { useEffect, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import Constants from "expo-constants";
 import LeftArrow2 from "../../assets/icons/leftArrow2";
+import LeftArrow3 from "../../assets/icons/leftArrow3";
 import defaultPoster from "../../assets/images/defaultPoster.png";
 import defaultLogo from "../../assets/images/defaultLogo.png";
 import "../../i18n";
 import { useTranslation } from "react-i18next";
 import LanguagesDropDown from "../../components/LanguagesDropDown";
+import ThemeToggle from "../../components/ThemeToggle";
+import { useTheme } from "@/theme/ThemeContext";
 
 const IP_URL = Constants.expoConfig.extra.IP_URL;
 
@@ -25,6 +28,8 @@ const MoreInfo = () => {
   const { id, mediaType } = useLocalSearchParams();
   const [loading, setLoading] = useState(true);
   const { t, i18n } = useTranslation();
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === "dark";
 
   const getData = async () => {
     try {
@@ -57,12 +62,21 @@ const MoreInfo = () => {
   }
 
   return (
-    <ScrollView className="flex-1 bg-black">
+    <ScrollView className={`flex-1 ${isDark ? "bg-black" : "bg-white"}`}>
       <View className="flex flex-row justify-between mt-[15px] mb-[15px]">
         <TouchableOpacity onPress={() => router.back()}>
-          <LeftArrow2 width={40} height={40} />
+          {isDark ? (
+            <LeftArrow2 height={40} width={40} />
+          ) : (
+            <LeftArrow3 height={40} width={40} />
+          )}
         </TouchableOpacity>
-        <LanguagesDropDown ml={230} mt={100} />
+        <View className="flex flex-row mt-[0px]">
+          <View className="mt-[7px]">
+            <ThemeToggle />
+          </View>
+          <LanguagesDropDown ml={230} mt={85} />
+        </View>
       </View>
 
       <View className="relative">
@@ -79,9 +93,17 @@ const MoreInfo = () => {
           className="w-full h-96 opacity-60"
           resizeMode="stretch"
         />
-        <View className="absolute inset-0 bg-black opacity-50"></View>
+        <View
+          className={`absolute inset-0 ${
+            isDark ? "bg-black" : "bg-zinc-700"
+          } opacity-50`}
+        ></View>
         {movie?.title && (
-          <Text className="absolute bottom-6 left-4 text-white text-4xl font-bold">
+          <Text
+            className={`absolute bottom-6 left-4 ${
+              isDark ? "text-white" : "text-black"
+            } text-4xl font-bold`}
+          >
             {movie?.title}
           </Text>
         )}
@@ -103,19 +125,29 @@ const MoreInfo = () => {
         />
 
         {movie?.title && (
-          <Text className="text-white text-center text-2xl font-bold">
+          <Text
+            className={`${
+              isDark ? "text-white" : "text-black"
+            } text-center text-2xl font-bold`}
+          >
             {movie?.title}
           </Text>
         )}
 
         {movie?.release_date?.split("-")[0] && (
-          <Text className="text-gray-400 text-center">
+          <Text
+            className={`${
+              isDark ? "text-gray-400" : "text-gray-700"
+            } text-center`}
+          >
             {movie?.release_date?.split("-")[0]}
           </Text>
         )}
 
         {movie?.tagline && (
-          <Text className="text-yellow-400 text-xl font-bold text-center mt-2">
+          <Text
+            className="text-yellow-400 text-xl font-bold text-center mt-2"
+          >
             {movie?.tagline}
           </Text>
         )}
@@ -126,7 +158,7 @@ const MoreInfo = () => {
           {movie?.genres.map((genre) => (
             <Text
               key={genre?.id}
-              className="text-gray-300 bg-gray-800 px-3 py-1 rounded-lg mr-2 mb-2"
+              className={`${isDark ? "text-gray-300 bg-gray-800" :"text-white bg-black"} px-3 py-1 rounded-lg mr-2 mb-2`}
             >
               {genre?.name}
             </Text>
@@ -136,9 +168,17 @@ const MoreInfo = () => {
 
       <View className="p-4">
         {movie?.overview ? (
-          <Text className="text-gray-200 text-lg">{movie?.overview}</Text>
+          <Text
+            className={`${isDark ? "text-gray-200" : "text-black"} text-lg`}
+          >
+            {movie?.overview}
+          </Text>
         ) : (
-          <Text className="text-gray-500 text-lg italic">
+          <Text
+            className={`${
+              isDark ? "text-gray-500" : "text-black"
+            } text-lg italic`}
+          >
             {t("there_is_no_summary_information_available")}
           </Text>
         )}
@@ -150,7 +190,11 @@ const MoreInfo = () => {
             ⭐ {movie?.vote_average}
           </Text>
 
-          <Text className="text-gray-400 text-lg ml-2">
+          <Text
+            className={`${
+              isDark ? "text-gray-400" : "text-black"
+            } text-lg ml-2`}
+          >
             ({movie?.vote_count} {t("votes")})
           </Text>
         </View>
@@ -158,7 +202,9 @@ const MoreInfo = () => {
 
       <View className="p-4">
         {movie?.production_countries.length > 0 && (
-          <Text className="text-gray-300 text-lg">
+          <Text
+            className={`${isDark ? "text-gray-300" : "text-black"} text-lg`}
+          >
             📍 {t("countries")}:{" "}
             <Text>
               {movie?.production_countries.map((c) => c.name).join(", ")}
@@ -167,7 +213,9 @@ const MoreInfo = () => {
         )}
 
         {movie?.spoken_languages.length > 0 && (
-          <Text className="text-gray-300 text-lg">
+          <Text
+            className={`${isDark ? "text-gray-300" : "text-black"} text-lg`}
+          >
             🗣️ {t("languages")}:{" "}
             <Text>
               {movie?.spoken_languages.map((l) => l.english_name).join(", ")}
@@ -176,19 +224,25 @@ const MoreInfo = () => {
         )}
 
         {movie?.runtime && (
-          <Text className="text-gray-300 text-lg">
+          <Text
+            className={`${isDark ? "text-gray-300" : "text-black"} text-lg`}
+          >
             ⌛ {t("duration")}: {movie?.runtime} minutes
           </Text>
         )}
 
         {movie?.budget.toLocaleString() != 0 && (
-          <Text className="text-gray-300 text-lg">
+          <Text
+            className={`${isDark ? "text-gray-300" : "text-black"} text-lg`}
+          >
             💰 {t("budget")}: ${movie?.budget.toLocaleString()}
           </Text>
         )}
 
         {movie?.revenue.toLocaleString() != 0 && (
-          <Text className="text-gray-300 text-lg">
+          <Text
+            className={`${isDark ? "text-gray-300" : "text-black"} text-lg`}
+          >
             📈 {t("revenue")}: <Text>${movie?.revenue.toLocaleString()}</Text>
           </Text>
         )}
@@ -196,7 +250,11 @@ const MoreInfo = () => {
 
       {movie?.production_companies.length > 0 && (
         <View className="p-4">
-          <Text className="text-white text-lg font-bold mb-2">
+          <Text
+            className={`${
+              isDark ? "text-white" : "text-black"
+            } text-lg font-bold mb-2`}
+          >
             🎬 {t("production_companies")}
           </Text>
           {movie?.production_companies.map((company) => (
@@ -208,11 +266,19 @@ const MoreInfo = () => {
                     : defaultLogo,
                 }}
                 resizeMode="contain"
-                className="w-10 h-10 rounded-full mr-3 bg-white"
+                className={`w-10 h-10 rounded-full mr-3 ${
+                  isDark ? "bg-white" : "bg-black"
+                }`}
               />
 
               {company?.name && (
-                <Text className="text-gray-400 text-lg">{company?.name}</Text>
+                <Text
+                  className={`${
+                    isDark ? "text-gray-400" : "text-black"
+                  } text-lg`}
+                >
+                  {company?.name}
+                </Text>
               )}
             </View>
           ))}

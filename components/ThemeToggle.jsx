@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Switch, Animated, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useTheme } from "@/theme/ThemeContext";
-import { Ionicons } from "@expo/vector-icons"; // Güneş/ay ikonları için
+import { Ionicons } from "@expo/vector-icons";
 
 export default function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
@@ -12,14 +12,14 @@ export default function ThemeToggle() {
       <View
         style={[
           styles.container,
-          { backgroundColor: isDark ? "#1F2937" : "#E5E7EB" }, // dark: slate-800, light: gray-200
+          { backgroundColor: isDark ? "#1F2937" : "#E5E7EB" },
         ]}
       >
         <Animated.View
           style={[
             styles.toggleCircle,
             {
-              backgroundColor: isDark ? "#4ADE80" : "#FACC15", // dark: green-400, light: yellow-400
+              backgroundColor: isDark ? "#4ADE80" : "#FACC15",
               alignSelf: isDark ? "flex-end" : "flex-start",
             },
           ]}
