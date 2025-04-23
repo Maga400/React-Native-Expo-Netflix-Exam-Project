@@ -10,13 +10,14 @@ import {
   TouchableWithoutFeedback,
   Platform,
   Image,
-  ActivityIndicator, // 👈 Eklendi
+  ActivityIndicator,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
 import { router } from "expo-router";
 import "../i18n";
 import { useTranslation } from "react-i18next";
+import { useTheme } from "@/theme/ThemeContext";
 import {
   ChevronLeft,
   ChevronRight,
@@ -37,6 +38,8 @@ const TvShowsDropDown = () => {
   const [value, setValue] = useState("");
   const [label, setLabel] = useState("");
   const [first, setFirst] = useState(false);
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === "dark";
 
   const { t, i18n } = useTranslation();
   const buttonRef = useRef(null);
@@ -118,7 +121,7 @@ const TvShowsDropDown = () => {
   }, [i18n.language]);
 
   return (
-    <View className="bg-black px-[20px]">
+    <View className={`${isDark ? "bg-black" : "bg-white"} px-[20px]`}>
       <View
         ref={buttonRef}
         className="py-[10px] mt-[10px]"
@@ -131,12 +134,17 @@ const TvShowsDropDown = () => {
       >
         <TouchableOpacity
           onPress={toggleExpanded}
-          className="h-[50px] justify-between bg-[#fff] w-full items-center flex-row px-[15px] rounded-[8px]"
+          className={`h-[50px] justify-between ${
+            isDark ? "bg-[#fff]" : "bg-[#141414]"
+          } w-full items-center flex-row px-[15px] rounded-[8px]`}
         >
-          <Text className="text-[15px] opacity-[0.8]">
+          <Text className={`${isDark ? "text-black":"text-white"} text-[15px] opacity-[0.8]`}>
             {label || t("select_tv_show_category")}
           </Text>
-          <AntDesign name={expanded ? "caretup" : "caretdown"} />
+          <AntDesign
+            color={isDark ? "black" : "white"}
+            name={expanded ? "caretup" : "caretdown"}
+          />
         </TouchableOpacity>
 
         {expanded && (
@@ -145,7 +153,7 @@ const TvShowsDropDown = () => {
               <View className="p-[20px] justify-center flex-1 items-center">
                 <View
                   style={{ top }}
-                  className="absolute bg-white w-full p-[10px] rounded-[6px] max-h-[250px] ml-[20px] mt-[20px]"
+                  className={`absolute ${isDark ? "bg-white" : "bg-black"} w-full p-[10px] rounded-[6px] max-h-[250px] ml-[20px] mt-[20px]`}
                 >
                   <FlatList
                     data={tvCategories}
@@ -156,7 +164,7 @@ const TvShowsDropDown = () => {
                         activeOpacity={0.8}
                         onPress={() => onSelect(item)}
                       >
-                        <Text>{item.label}</Text>
+                        <Text className={`${isDark ?"text-black" : "text-white"}`}>{item.label}</Text>
                       </TouchableOpacity>
                     )}
                     ItemSeparatorComponent={() => (
@@ -171,7 +179,7 @@ const TvShowsDropDown = () => {
       </View>
 
       {value && (
-        <Text className="mt-[30px] font-robotoRegular font-normal text-[20px] leading-[32px] color-[#FFFFFF]">
+        <Text className={`mt-[30px] font-robotoRegular font-normal text-[20px] leading-[32px] ${isDark ? "color-[#FFFFFF]" : "color-black"}`}>
           {label} {t("tv_shows")}
         </Text>
       )}
@@ -200,7 +208,7 @@ const TvShowsDropDown = () => {
                   marginTop: 20,
                 }}
               >
-                <Text style={{ color: "#fff", fontSize: 16 }}>
+                <Text style={{ color: isDark ? "#fff" : "black", fontSize: 16 }}>
                   {t("no_tv_shows_available")}
                 </Text>
               </View>

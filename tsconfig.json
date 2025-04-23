@@ -16,5 +16,5 @@
     "app/(tabs)/index.jsx",
     "app/(tabs)/home/homepage.jsx",
     "nativewind-env.d.ts"
-, "components/DropDown.jsx", "app/(tabs)/_layout.jsx", "app/_layout.tsx"  ]
+, "components/DropDown.jsx", "app/(tabs)/_layout.tsx", "app/_layout.tsx"  ]
 }

@@ -17,6 +17,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { router } from "expo-router";
 import "../i18n";
 import { useTranslation } from "react-i18next";
+import { useTheme } from "@/theme/ThemeContext";
 
 import {
   ChevronLeft,
@@ -37,6 +38,8 @@ const MoviesDropDown = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { t, i18n } = useTranslation();
   const [first, setFirst] = useState(false);
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === "dark";
 
   const movieCategories = [
     { label: t("top_rated"), value: "top_rated" },
@@ -116,7 +119,7 @@ const MoviesDropDown = () => {
   }, [i18n.language]);
 
   return (
-    <View className="bg-black px-[20px]">
+    <View className={`${isDark ? "bg-black" : "bg-white"} px-[20px]`}>
       <View
         ref={buttonRef}
         className="py-[20px] mt-[10px]"
@@ -135,12 +138,12 @@ const MoviesDropDown = () => {
       >
         <TouchableOpacity
           onPress={toggleExpanded}
-          className="h-[50px] justify-between bg-[#fff] w-full items-center flex-row px-[15px] rounded-[8px]"
+          className={`h-[50px] justify-between ${isDark ? "bg-[#fff]" : "bg-[#141414]"} w-full items-center flex-row px-[15px] rounded-[8px]`}
         >
-          <Text className="text-[15px] opacity-[0.8]">
+          <Text className={`${isDark ? "text-black" : "text-white"} text-[15px] opacity-[0.8]`}>
             {label || t("select_movie_category")}
           </Text>
-          <AntDesign name={expanded ? "caretup" : "caretdown"} />
+          <AntDesign color={isDark ? "black" : "white"} name={expanded ? "caretup" : "caretdown"} />
         </TouchableOpacity>
         {expanded ? (
           <Modal visible={expanded} transparent>
@@ -148,7 +151,7 @@ const MoviesDropDown = () => {
               <View className="p-[20px] mb-[50px] justify-center flex-1 items-center">
                 <View
                   style={{ top }}
-                  className="absolute bg-white w-full p-[10px] rounded-[6px] max-h-[250px] ml-[20px] mt-[10px]"
+                  className={`absolute ${isDark ? "bg-white" : "bg-[#141414]"} w-full p-[10px] rounded-[6px] max-h-[250px] ml-[20px] mt-[10px]`}
                 >
                   <FlatList
                     data={movieCategories}
@@ -160,7 +163,7 @@ const MoviesDropDown = () => {
                           activeOpacity={0.8}
                           onPress={() => onSelect(item)}
                         >
-                          <Text>{item.label}</Text>
+                          <Text className={`${isDark ? "text-black" : "text-white"}`}>{item.label}</Text>
                         </TouchableOpacity>
                       )
                     }
@@ -174,7 +177,7 @@ const MoviesDropDown = () => {
       </View>
 
       {value && (
-        <Text className="font-robotoRegular font-normal text-[20px] leading-[32px] color-[#FFFFFF] mt-[15px]">
+        <Text className={`font-robotoRegular font-normal text-[20px] leading-[32px] ${isDark ? "color-[#FFFFFF]" : "color-black"} mt-[15px]`}>
           {label} {t("all_movies")}
         </Text>
       )}
@@ -205,7 +208,7 @@ const MoviesDropDown = () => {
                   marginTop: 20,
                 }}
               >
-                <Text style={{ color: "#fff", fontSize: 16 }}>
+                <Text style={{ color: isDark ? "#fff" : "black", fontSize: 16 }}>
                   {t("no_movies_available")}
                 </Text>
               </View>

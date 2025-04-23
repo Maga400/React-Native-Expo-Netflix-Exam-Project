@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { ActivityIndicator, View, Animated } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Colors } from "@/constants/Colors";
-import { useColorScheme } from "@/hooks/useColorScheme";
 import { Tabs, Redirect } from "expo-router";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "@/theme/ThemeContext";
 import "../../global.css";
-
 
 const AnimatedTabIcon = ({ focused, color, name }) => {
   const scale = focused ? new Animated.Value(1.2) : new Animated.Value(1);
@@ -29,10 +27,16 @@ const AnimatedTabIcon = ({ focused, color, name }) => {
 };
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const { theme } = useTheme(); // ThemeContext'ten tema al
   const [token, setToken] = useState<string | null>(null);
   const [first, setFirst] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // light/dark ayarları
+  const isDark = theme === "dark";
+  const tabBarBackground = isDark ? "#000" : "#fff";
+  const tabBarActiveColor = isDark ? "#fff" : "#000";
+  const tabBarInactiveColor = "#888";
 
   useEffect(() => {
     const checkStorage = async () => {
@@ -58,10 +62,7 @@ export default function TabLayout() {
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator
-          size="large"
-          color={Colors[colorScheme ?? "light"].tint}
-        />
+        <ActivityIndicator size="large" color={tabBarActiveColor} />
       </View>
     );
   }
@@ -74,18 +75,16 @@ export default function TabLayout() {
     return <Redirect href="/auth/login" />;
   }
 
-  // return <Redirect href="/movies" />;
-
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: tabBarBackground }}>
         <Tabs
           screenOptions={{
-            tabBarActiveTintColor: "white",
-            tabBarInactiveTintColor: "gray",
+            tabBarActiveTintColor: tabBarActiveColor,
+            tabBarInactiveTintColor: tabBarInactiveColor,
             headerShown: false,
             tabBarStyle: {
-              backgroundColor: "#211E22",
+              backgroundColor: tabBarBackground,
               position: "relative",
               borderTopWidth: 0,
               paddingTop: 5,
@@ -107,7 +106,6 @@ export default function TabLayout() {
               ),
             }}
           />
-
           <Tabs.Screen
             name="search"
             options={{
@@ -117,7 +115,6 @@ export default function TabLayout() {
               ),
             }}
           />
-          
           <Tabs.Screen
             name="profile"
             options={{

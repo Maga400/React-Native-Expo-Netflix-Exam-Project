@@ -61,11 +61,11 @@ const Index = () => {
       );
 
       setMovies([]);
+      setMoviesFirst(true);
 
       if (response.ok) {
         const data = await response.json();
         setMovies(data.content);
-        setMoviesFirst(true);
       }
     } catch (error) {
       if (error.name !== "AbortError") {
@@ -98,11 +98,11 @@ const Index = () => {
       );
 
       setTvShows([]);
+      setTvShowsFirst(true);
 
       if (response.ok) {
         const data = await response.json();
         setTvShows(data.content);
-        setTvShowsFirst(true);
       }
     } catch (error) {
       if (error.name !== "AbortError") {
@@ -136,10 +136,10 @@ const Index = () => {
 
       setActors([]);
 
+      setActorsFirst(true);
       if (response.ok) {
         const data = await response.json();
         setActors(data.content);
-        setActorsFirst(true);
       }
     } catch (error) {
       if (error.name !== "AbortError") {
@@ -205,7 +205,7 @@ const Index = () => {
             width={20}
             height={20}
             style={{ position: "absolute", right: 20, marginTop: 25 }}
-            fill= {isDark ? "black" : "white"}
+            fill={isDark ? "black" : "white"}
           />
         </View>
         {loadingActors ? (
@@ -217,7 +217,7 @@ const Index = () => {
           </View>
         ) : (
           <View>
-            {!loadingActors && actorsFirst && (
+            {!loadingActors && actorsFirst && search?.length > 2 && (
               <Text
                 className={`mt-[40px] text-[20px] leading-[32px] font-robotoRegular font-normal ${
                   isDark ? "color-[#FFFFFF]" : "color-black"
@@ -233,7 +233,8 @@ const Index = () => {
               contentContainerStyle={{ marginTop: 15, marginBottom: 0 }}
               ListEmptyComponent={
                 !loadingActors &&
-                actorsFirst && (
+                actorsFirst &&
+                search?.length > 2 && (
                   <View
                     style={{
                       flex: 1,
@@ -305,7 +306,7 @@ const Index = () => {
           </View>
         ) : (
           <View>
-            {!loadingMovies && moviesFirst && (
+            {!loadingMovies && moviesFirst && search?.length > 2 && (
               <Text
                 className={`mt-[40px] text-[20px] leading-[32px] font-robotoRegular font-normal ${
                   isDark ? "color-[#FFFFFF]" : "color-black"
@@ -321,7 +322,8 @@ const Index = () => {
               contentContainerStyle={{ marginTop: 15 }}
               ListEmptyComponent={
                 !loadingMovies &&
-                moviesFirst && (
+                moviesFirst &&
+                search?.length > 2 && (
                   <View
                     style={{
                       flex: 1,
@@ -384,7 +386,7 @@ const Index = () => {
           </View>
         ) : (
           <View>
-            {!loadingTvShows && tvShowsFirst && (
+            {!loadingTvShows && tvShowsFirst && search?.length > 2 && (
               <Text
                 className={`mt-[40px] text-[20px] leading-[32px] font-robotoRegular font-normal ${
                   isDark ? "color-[#FFFFFF]" : "color-black"
@@ -401,7 +403,8 @@ const Index = () => {
               contentContainerStyle={{ marginTop: 15, marginBottom: 0 }}
               ListEmptyComponent={
                 !loadingTvShows &&
-                tvShowsFirst && (
+                tvShowsFirst &&
+                search?.length > 2 && (
                   <View
                     style={{
                       flex: 1,
@@ -410,7 +413,9 @@ const Index = () => {
                       marginTop: 20,
                     }}
                   >
-                    <Text style={{ color: isDark ? "#fff" : "black", fontSize: 16 }}>
+                    <Text
+                      style={{ color: isDark ? "#fff" : "black", fontSize: 16 }}
+                    >
                       {t("no_tv_shows_available")}
                     </Text>
                   </View>

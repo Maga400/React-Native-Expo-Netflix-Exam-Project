@@ -98,7 +98,7 @@ const AllMovies = () => {
             <ThemeToggle />
           </View>
           <View>
-            <LanguagesDropDown ml={230} mt={85} />
+            <LanguagesDropDown ml={230} mt={100} />
           </View>
         </View>
       </View>

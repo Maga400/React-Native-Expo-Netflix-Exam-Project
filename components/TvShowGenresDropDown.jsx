@@ -10,13 +10,15 @@ import {
   TouchableWithoutFeedback,
   Platform,
   Image,
-  ActivityIndicator, // Loading indicator import
+  ActivityIndicator,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
 import { router } from "expo-router";
 import "../i18n";
 import { useTranslation } from "react-i18next";
+import { useTheme } from "@/theme/ThemeContext";
+
 import {
   ChevronLeft,
   ChevronRight,
@@ -35,9 +37,11 @@ const TvShowGenresDropDown = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const [genresLoading, setGenresLoading] = useState(false); // New state for genres loading
+  const [genresLoading, setGenresLoading] = useState(false);
   const { t, i18n } = useTranslation();
   const [first, setFirst] = useState(false);
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === "dark";
 
   const [selectedGenre, setSelectedGenre] = useState(null);
   const [top, setTop] = useState(0);
@@ -46,7 +50,7 @@ const TvShowGenresDropDown = () => {
   const toggleExpanded = useCallback(() => setExpanded(!expanded), [expanded]);
 
   const getAllGenres = async () => {
-    setGenresLoading(true); // Show loading indicator for genres
+    setGenresLoading(true);
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
@@ -71,14 +75,14 @@ const TvShowGenresDropDown = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      setGenresLoading(false); // Hide loading indicator for genres
+      setGenresLoading(false);
     }
   };
 
   const getTvShowsByGenre = async (page) => {
     if (!selectedGenre) return;
 
-    setIsLoading(true); // Show loading indicator for tv shows
+    setIsLoading(true);
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
@@ -102,7 +106,7 @@ const TvShowGenresDropDown = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      setIsLoading(false); // Hide loading indicator for tv shows
+      setIsLoading(false);
     }
   };
 
@@ -139,7 +143,7 @@ const TvShowGenresDropDown = () => {
   }, [i18n.language]);
 
   return (
-    <View className="bg-black px-[20px]">
+    <View className={`${isDark ? "bg-black" : "bg-white"} px-[20px]`}>
       <View
         ref={buttonRef}
         className="py-[20px] mt-[10px]"
@@ -156,12 +160,12 @@ const TvShowGenresDropDown = () => {
       >
         <TouchableOpacity
           onPress={toggleExpanded}
-          className="h-[50px] justify-between bg-[#fff] w-full items-center flex-row px-[15px] rounded-[8px]"
+          className={`h-[50px] justify-between ${isDark ? "bg-[#fff]" : "bg-[#141414]"} w-full items-center flex-row px-[15px] rounded-[8px]`}
         >
-          <Text className="text-[15px] opacity-[0.8]">
+          <Text className={`${isDark ? "text-black":"text-white"} text-[15px] opacity-[0.8]`}>
             {selectedGenre?.name || t("select_tv_show_genre")}
           </Text>
-          <AntDesign name={expanded ? "caretup" : "caretdown"} />
+          <AntDesign color={isDark ? "black" : "white"} name={expanded ? "caretup" : "caretdown"} />
         </TouchableOpacity>
 
         {expanded && (
@@ -170,9 +174,9 @@ const TvShowGenresDropDown = () => {
               <View className="p-[20px] mb-[50px] justify-center flex-1 items-center">
                 <View
                   style={{ top }}
-                  className="absolute bg-white w-full p-[10px] rounded-[6px] max-h-[250px] ml-[20px] mt-[10px]"
+                  className={`absolute ${isDark ? "bg-white" : "bg-[#141414]"} w-full p-[10px] rounded-[6px] max-h-[250px] ml-[20px] mt-[10px]`}
                 >
-                  {genresLoading ? ( // Show loading spinner when genres are being loaded
+                  {genresLoading ? (
                     <ActivityIndicator size="large" color="#E50914" />
                   ) : (
                     <FlatList
@@ -184,7 +188,7 @@ const TvShowGenresDropDown = () => {
                           activeOpacity={0.8}
                           onPress={() => onSelect(item)}
                         >
-                          <Text>{item?.name}</Text>
+                          <Text className={`${isDark ? "text-black" : "text-white"}`}>{item?.name}</Text>
                         </TouchableOpacity>
                       )}
                       ItemSeparatorComponent={<View className="h-[10px]" />}
@@ -197,7 +201,7 @@ const TvShowGenresDropDown = () => {
         )}
       </View>
 
-      <Text className="font-robotoRegular font-normal text-[20px] leading-[32px] color-[#FFFFFF] mt-[15px]">
+      <Text className={`font-robotoRegular font-normal text-[20px] leading-[32px] ${isDark ? "color-[#FFFFFF]" :"color-black"} mt-[15px]`}>
         {selectedGenre?.name && `${selectedGenre?.name} ${t("tv_shows")}`}
       </Text>
 
@@ -225,7 +229,7 @@ const TvShowGenresDropDown = () => {
                   marginTop: 20,
                 }}
               >
-                <Text style={{ color: "#fff", fontSize: 16 }}>
+                <Text style={{ color: isDark ? "#fff" : "black", fontSize: 16 }}>
                   {t("no_tv_shows_available")}
                 </Text>
               </View>

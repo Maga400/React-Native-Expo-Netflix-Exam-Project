@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { changeLanguage } from "../i18n";
 import { useTheme } from "@/theme/ThemeContext";
 
-const LanguagesDropDown = ({ ml, mt }) => {
+const LanguagesDropDown = ({ ml = 0, mt = 0 }) => {
   const { t, i18n } = useTranslation();
   const [expanded, setExpanded] = useState(false);
   const { theme } = useTheme();
@@ -42,55 +42,67 @@ const LanguagesDropDown = ({ ml, mt }) => {
     setExpanded(false);
   };
 
+  const backgroundColor = isDark ? "#333" : "#fff";
+  const textColor = isDark ? "#fff" : "#111";
+  const dropdownBackground = isDark ? "#444" : "#fff";
+  const borderColor = isDark ? "#444" : "#ddd";
+
   return (
-    <View
-      style={{
-        width: 160,
-        paddingHorizontal: 20,
-      }}
-    >
+    <View style={{ width: 160, paddingHorizontal: 20 }}>
       <TouchableOpacity
         onPress={toggleExpanded}
         style={{
-          height: 30,
-          backgroundColor: isDark ? "white" : "black",
+          height: 35,
+          backgroundColor: backgroundColor,
           justifyContent: "space-between",
           alignItems: "center",
           flexDirection: "row",
           paddingHorizontal: 15,
           borderRadius: 8,
-          marginTop: 6,
+          marginTop: 1,
+          borderWidth: 1,
+          borderColor: borderColor,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 5,
         }}
       >
-        <Text
-          style={{ fontSize: 13}}
-          className={`${isDark ? "text-black" : "text-white"}`}
-        >
-          {selectedLabel}
-        </Text>
-        <AntDesign color={isDark ? "black" : "white"} name={expanded ? "caretup" : "caretdown"} />
+        <Text style={{ fontSize: 13, color: textColor }}>{selectedLabel}</Text>
+        <AntDesign
+          color={textColor}
+          name={expanded ? "caretup" : "caretdown"}
+        />
       </TouchableOpacity>
 
       {expanded && (
-        <Modal visible={expanded} transparent>
+        <Modal visible={expanded} transparent animationType="fade">
           <TouchableWithoutFeedback onPress={() => setExpanded(false)}>
             <View
               style={{
                 flex: 1,
-                justifyContent: "start",
+                justifyContent: "flex-start",
                 alignItems: "center",
-                marginTop: 5,
+                marginTop:5
               }}
             >
               <View
                 style={{
-                  backgroundColor: isDark ? "white" : "black",
+                  backgroundColor: dropdownBackground,
                   width: 120,
-                  padding: 10,
-                  borderRadius: 6,
+                  padding: 12,
+                  borderRadius: 8,
                   maxHeight: 250,
                   marginTop: mt,
                   marginLeft: ml,
+                  shadowColor: "#000",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.15,
+                  shadowRadius: 6,
+                  elevation: 10,
+                  borderWidth: 1,
+                  borderColor: borderColor,
                 }}
               >
                 <FlatList
@@ -98,13 +110,19 @@ const LanguagesDropDown = ({ ml, mt }) => {
                   keyExtractor={(item) => item.value}
                   renderItem={({ item }) => (
                     <TouchableOpacity
-                      style={{ height: 45, justifyContent: "center" }}
+                      style={{
+                        height: 45,
+                        justifyContent: "center",
+                        paddingHorizontal: 10,
+                      }}
                       onPress={() => onSelect(item)}
                     >
-                      <Text className={`${isDark ? "text-black" : "text-white"}`}>{item.label}</Text>
+                      <Text style={{ color: textColor, fontSize: 13 }}>
+                        {item.label}
+                      </Text>
                     </TouchableOpacity>
                   )}
-                  ItemSeparatorComponent={<View style={{ height: 10 }} />}
+                  ItemSeparatorComponent={<View style={{ height: 8 }} />}
                 />
               </View>
             </View>

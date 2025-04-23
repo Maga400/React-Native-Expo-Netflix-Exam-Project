@@ -17,6 +17,8 @@ import { AntDesign } from "@expo/vector-icons";
 import { router } from "expo-router";
 import "../i18n";
 import { useTranslation } from "react-i18next";
+import { useTheme } from "@/theme/ThemeContext";
+
 import {
   ChevronLeft,
   ChevronRight,
@@ -34,9 +36,11 @@ const MovieGenresDropDown = () => {
   const [genres, setGenres] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [isLoading, setIsLoading] = useState(false); // For movie loading
-  const [isGenresLoading, setIsGenresLoading] = useState(false); // For genres loading
+  const [isLoading, setIsLoading] = useState(false);
+  const [isGenresLoading, setIsGenresLoading] = useState(false);
   const { t, i18n } = useTranslation();
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === "dark";
 
   const [selectedGenre, setSelectedGenre] = useState(null);
   const [top, setTop] = useState(0);
@@ -48,7 +52,7 @@ const MovieGenresDropDown = () => {
 
   const getAllGenres = async () => {
     try {
-      setIsGenresLoading(true); // Start loading genres
+      setIsGenresLoading(true);
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
         `${IP_URL}/movie/genres?lang=${i18n.language}`,
@@ -73,14 +77,14 @@ const MovieGenresDropDown = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      setIsGenresLoading(false); // Stop genres loading
+      setIsGenresLoading(false); 
     }
   };
 
   const getMoviesByGenre = async (page) => {
     if (!selectedGenre) return;
 
-    setIsLoading(true); // Start loading movies
+    setIsLoading(true);
     try {
       const token = await AsyncStorage.getItem("token");
       const response = await fetch(
@@ -104,7 +108,7 @@ const MovieGenresDropDown = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      setIsLoading(false); // Stop movies loading
+      setIsLoading(false);
     }
   };
 
@@ -141,7 +145,7 @@ const MovieGenresDropDown = () => {
   }, [i18n.language]);
 
   return (
-    <View className="bg-black px-[20px]">
+    <View className={`${isDark ? "bg-black" : "bg-white"} px-[20px]`}>
       <View
         ref={buttonRef}
         className="py-[20px] mt-[10px]"
@@ -158,12 +162,12 @@ const MovieGenresDropDown = () => {
       >
         <TouchableOpacity
           onPress={toggleExpanded}
-          className="h-[50px] justify-between bg-[#fff] w-full items-center flex-row px-[15px] rounded-[8px]"
+          className={`h-[50px] justify-between ${isDark ? "bg-[#fff]" : "bg-[#141414]"} w-full items-center flex-row px-[15px] rounded-[8px]`}
         >
-          <Text className="text-[15px] opacity-[0.8]">
+          <Text className={`${isDark ? "text-black" : "text-white"} text-[15px] opacity-[0.8]`}>
             {selectedGenre?.name || t("select_movie_genre")}
           </Text>
-          <AntDesign name={expanded ? "caretup" : "caretdown"} />
+          <AntDesign color={isDark ? "black":"white"} name={expanded ? "caretup" : "caretdown"} />
         </TouchableOpacity>
 
         {expanded ? (
@@ -172,7 +176,7 @@ const MovieGenresDropDown = () => {
               <View className="p-[20px] mb-[50px] justify-center flex-1 items-center">
                 <View
                   style={{ top }}
-                  className="absolute bg-white w-full p-[10px] rounded-[6px] max-h-[250px] ml-[20px] mt-[10px]"
+                  className={`absolute ${isDark ? "bg-[#fff]" : "bg-[#141414]"} w-full p-[10px] rounded-[6px] max-h-[250px] ml-[20px] mt-[10px]`}
                 >
                   {isGenresLoading ? (
                     <ActivityIndicator size="large" color="#E50914" />
@@ -186,7 +190,7 @@ const MovieGenresDropDown = () => {
                           activeOpacity={0.8}
                           onPress={() => onSelect(item)}
                         >
-                          <Text>{item.name}</Text>
+                          <Text className={`${isDark ? "text-black" : "text-white"}`}>{item.name}</Text>
                         </TouchableOpacity>
                       )}
                       ItemSeparatorComponent={<View className="h-[10px]" />}
@@ -199,7 +203,7 @@ const MovieGenresDropDown = () => {
         ) : null}
       </View>
 
-      <Text className="font-robotoRegular font-normal text-[20px] leading-[32px] color-[#FFFFFF] mt-[15px]">
+      <Text className={`font-robotoRegular font-normal text-[20px] leading-[32px] ${isDark ? "color-[#FFFFFF]" : "color-black"} mt-[15px]`}>
         {selectedGenre?.name && `${selectedGenre?.name} ${t("movies")}`}
       </Text>
 
@@ -227,7 +231,7 @@ const MovieGenresDropDown = () => {
                   marginTop: 20,
                 }}
               >
-                <Text style={{ color: "#fff", fontSize: 16 }}>
+                <Text style={{ color: isDark ? "#fff" : "black", fontSize: 16 }}>
                   {t('no_movies_available')}
                 </Text>
               </View>
